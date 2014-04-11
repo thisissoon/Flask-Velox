@@ -1,0 +1,6 @@
+#
+# Installation Requirements
+# Installed with python setup.py install|develop
+#
+
+Flask==0.10.1
