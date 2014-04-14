@@ -7,8 +7,8 @@ templates for rendering.
 Example
 -------
 
->>> from flask.ext.velox.views.context import ContextMixin
-... from flask.ext.velox.views.template import TemplateMixin
+>>> from flask.ext.velox.mixins.context import ContextMixin
+... from flask.ext.velox.mixins.template import TemplateMixin
 ...
 ... app = Flask(__name__)
 ...
@@ -54,7 +54,7 @@ class ContextMixin(object):
         self._context = {}
 
         default_context = getattr(self, 'default_context', {})
-        self.merge(default_context)
+        self.merge_context(default_context)
 
     @property
     def context(self):

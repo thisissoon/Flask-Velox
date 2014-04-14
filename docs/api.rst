@@ -1,16 +1,8 @@
 API
 ===
 
-flask_velox.views.context
--------------------------
+.. toctree::
+    :maxdepth: 3
 
-.. automodule:: flask_velox.views.context
-    :members:
-    :private-members:
-
-flask_velox.views.template
---------------------------
-
-.. automodule:: flask_velox.views.template
-    :members:
-    :private-members:
+    api/mixins
+    api/views

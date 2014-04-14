@@ -7,75 +7,25 @@ Example
 -------
 
 >>> from flask import Flask
-... from flask.ext.velox.views.template import TemplateView
-... from flask.views import MethodView
+>>> from flask.ext.velox.views.template import TemplateView
+>>> from flask.views import MethodView
 ...
-... app = Flask(__name__)
+>>> app = Flask(__name__)
 ...
-... class HomeView(TemplateView):
+>>> class HomeView(TemplateView):
 ...     template = 'templates/home.html'
+...     context = {
+...         'hello': 'word'
+...     }
 ...
-... app.add_url_rule('/', view_func=HomeView.as_view('home'))
+>>> app.add_url_rule('/', view_func=HomeView.as_view('home'))
 ...
-... app.run()
+>>> app.run()
 
 """
 
-from flask import render_template
-from flask.views import MethodView
-from flask_velox.views.context import ContextMixin
-
-
-class TemplateMixin(MethodView):
-    """ Renders a template on HTTP GET request as long as the ``template``
-    attribute is defined.
-
-    Attributes
-    ----------
-    template : str
-        Relative template path, e.g: ``templates/home.html``
-
-    Example
-    -------
-    >>> class HomeView(TemplateView):
-    ...     template = 'templates/home.html'
-
-    """
-
-    @property
-    def _template(self):
-        """ Returns the defined template which should be set using the
-        ``template`` attribute on classes inheriting this view.
-
-        Returns
-        -------
-        str
-            Relative template path, e.g: ``templates/home.html``
-
-        Raises
-        ------
-        NotImplementedError
-            If ``self.template`` attribute is not defined
-
-        """
-
-        try:
-            return self.template
-        except AttributeError:
-            raise NotImplementedError('template attribute is not defined')
-
-    def get(self):
-        """ Handle HTTP GET requets using Flask ``MethodView`` rendering a
-        single html template.
-
-        Returns
-        -------
-        str
-            Rendered template
-
-        """
-
-        return render_template(self._template)
+from flask_velox.mixins.context import ContextMixin
+from flask_velox.mixins.template import TemplateMixin
 
 
 class TemplateView(TemplateMixin, ContextMixin):
@@ -96,10 +46,6 @@ class TemplateView(TemplateMixin, ContextMixin):
     ...         'hello': 'word'
     ...     }
 
-    References
-    ----------
-    * :py:class:`flask_velox.views.template.TemplateMixin`
-    * :py:class:`flask_velox.views.context.ContextMixin`
     """
 
     pass
