@@ -54,7 +54,7 @@ class ContextMixin(object):
         self._context = {}
 
         default_context = getattr(self, 'default_context', {})
-        self.merge(default_context)
+        self.merge_context(default_context)
 
     @property
     def context(self):

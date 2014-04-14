@@ -63,6 +63,22 @@ class TemplateMixin(MethodView):
         except AttributeError:
             raise NotImplementedError('template attribute is not defined')
 
+    def render(self):
+        """ Renders a template. This method will attempt to pass context
+        to the template but if the ``context`` attribute does not exist then
+        an empty dict will be passwed to the ``render_template`` method.
+
+        Returns
+        -------
+        str
+            Rendered template
+
+        """
+
+        return render_template(
+            self._template,
+            **getattr(self, 'context', {}))
+
     def get(self):
         """ Handle HTTP GET requets using Flask ``MethodView`` rendering a
         single html template.
@@ -74,4 +90,4 @@ class TemplateMixin(MethodView):
 
         """
 
-        return render_template(self._template)
+        return self.render()

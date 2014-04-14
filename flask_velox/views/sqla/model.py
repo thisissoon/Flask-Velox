@@ -34,4 +34,20 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
 
     """
 
-    pass
+    def get(self):
+        """ Handle HTTP GET requests using Flask ``MethodView`` rendering a
+        single html template.
+
+        Overrides :pymeth:`flask_velox.mixins.template.TemplateMixin.get`
+
+        Returns
+        -------
+        str
+            Rendered template
+
+        """
+
+        objects = self.get_objects()
+        self.add_context('objects', objects)
+
+        return super(ModelListView, self).get()
