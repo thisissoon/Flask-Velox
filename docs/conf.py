@@ -46,27 +46,10 @@ exclude_patterns = []
 
 # Theme
 html_theme = 'bootstrap'
-html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_static_path = ['_static']
+html_theme_path = [sphinx_bootstrap_theme.get_html_theme_path(), ]
 html_theme_options = {
     'bootswatch_theme': 'Lumen',
     'bootstrap_version': '3',
 }
 pygments_style = 'sphinx'
 htmlhelp_basename = 'Flask-Velox'
-
-man_pages = [(
-    'index', 'pravis', u'Flask-Velox Documentation',
-    [u'SOON_'], 1
-)]
-
-texinfo_documents = [(
-    'index',
-    'SOON_',
-    u'Flask-Velox Documentation',
-    u'SOON_',
-    'Flask-Velox',
-    'Velox is a set of classes & mixins to help rapidly build Flask '
-    'applications.',
-    'Miscellaneous'),
-]
