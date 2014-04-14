@@ -18,8 +18,6 @@ Example
 
 """
 
-from flask_velox.mixins.context import ContextMixin
-
 
 class BaseModelMixin(object):
     """ Mixin provides SQLAlchemy model integration.
@@ -105,3 +103,60 @@ class BaseModelMixin(object):
         """
 
         return getattr(self, 'pk_field', 'id')
+
+
+class ListModelMixin(BaseModelMixin):
+    """ Mixin provides ability to list multiple instances of a SQLAlchemy
+    model.
+
+    As well as attributes supported by the classes this mixin inherits from
+    other attributes are supported as well.
+
+    Example
+    -------
+    >>> from flask.ext.velox.mixins.sqla.model import ListModelMixin
+    >>> from yourapp import db
+    >>> from yourapp.models import SomeModel
+    ...
+    >>> class MyView(ListModelMixin):
+    ...     session = db.session
+    ...     model = SomeModel
+    ...     base_query = SomeModel.query.filter(foo='bar')
+
+    Attributes
+    ----------
+    base_query : object, optional
+        A SQLAlchemy base query object, if defined this will be used instead
+        of ``self.model.query.all()``
+    """
+
+    def get_basequery(self):
+        """ Returns SQLAlchemy base query object instance, if ``base_query`` is
+        declared this will be used as the base query, else
+        ``self.model.query.all()`` will be used which would get all model
+        objects.
+
+        Returns
+        -------
+        ``flask_sqlalchemy.BaseQuery``
+            A flask BaseQuery object instance
+
+        """
+
+        model = self.get_model()
+        base_query = getattr(self, 'base_query', model.query)
+
+        return base_query
+
+    def get_objects(self):
+        """ Returns a list of objects.
+
+        Returns
+        -------
+        list
+            List of model object instances
+        """
+
+        query = self.get_basequery()
+
+        return query.all()
