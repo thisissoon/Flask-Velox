@@ -8,8 +8,6 @@
 import sys
 import os
 
-import sphinx_bootstrap_theme
-
 # Add flask_velox to the Path
 root = os.path.abspath(
     os.path.join(
@@ -35,6 +33,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 extensions = [
+    'sphinxjp.themes.basicstrap',
     'sphinx.ext.autodoc',
     'sphinxcontrib.napoleon',
     'sphinx.ext.doctest',
@@ -45,12 +44,16 @@ extensions = [
 exclude_patterns = []
 
 # Theme
-html_theme = 'bootstrap'
-html_theme_path = [sphinx_bootstrap_theme.get_html_theme_path(), ]
-html_static_path = ['static']
+html_theme = 'basicstrap'
 html_theme_options = {
-    'bootswatch_theme': 'Lumen',
-    'bootstrap_version': '3',
+    'inner_theme': True,
+    'inner_theme_name': 'bootswatch-cerulean'
 }
-pygments_style = 'sphinx'
-htmlhelp_basename = 'Flask-Velox'
+#html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+#html_static_path = ['_static']
+#html_theme_options = {
+#    'bootswatch_theme': 'Lumen',
+#    'bootstrap_version': '3',
+#}
+#pygments_style = 'sphinx'
+#htmlhelp_basename = 'Flask-Velox'
