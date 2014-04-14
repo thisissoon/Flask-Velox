@@ -3,6 +3,10 @@
 """
 Module provides mixin classes for dealing with SQLALchemy models
 
+Note
+----
+Flask SQLAlchemy must be installed
+
 Example
 -------
 

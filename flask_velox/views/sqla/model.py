@@ -2,6 +2,10 @@
 
 """
 Module provides classes for rendering views for SQLAlchemy based models.
+
+Note
+----
+Flask SQLAlchemy must be installed
 """
 
 from flask_velox.mixins.context import ContextMixin
@@ -38,13 +42,15 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
         """ Handle HTTP GET requests using Flask ``MethodView`` rendering a
         single html template.
 
-        Overrides :pymeth:`flask_velox.mixins.template.TemplateMixin.get`
+        Note
+        ----
+        This overrides :py:meth:`flask_velox.mixins.template.TemplateMixin.get`
+        adding ``objects`` to the context.
 
         Returns
         -------
         str
             Rendered template
-
         """
 
         objects = self.get_objects()
