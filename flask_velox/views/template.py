@@ -46,10 +46,6 @@ class TemplateView(TemplateMixin, ContextMixin):
     ...         'hello': 'word'
     ...     }
 
-    References
-    ----------
-    * :py:class:`flask_velox.mixins.context.ContextMixin`
-    * :py:class:`flask_velox.mixins.template.TemplateMixin`
     """
 
     pass
