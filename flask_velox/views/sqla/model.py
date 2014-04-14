@@ -53,7 +53,9 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
             Rendered template
         """
 
-        objects = self.get_objects()
+        objects, pagination = self.get_objects()
+
         self.add_context('objects', objects)
+        self.add_context('pagination', pagination)
 
         return super(ModelListView, self).get()

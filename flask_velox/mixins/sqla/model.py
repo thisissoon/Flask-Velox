@@ -22,6 +22,8 @@ Example
 
 """
 
+from flask import request
+
 
 class BaseModelMixin(object):
     """ Mixin provides SQLAlchemy model integration.
@@ -132,6 +134,11 @@ class ListModelMixin(BaseModelMixin):
     base_query : object, optional
         A SQLAlchemy base query object, if defined this will be used instead
         of ``self.model.query.all()``
+    paginate : bool, optional
+        Paginate the records using SQLAlchemy ``query.paginate``
+    per_page : int, optional
+        If ``paginate`` is ``True`` customise the number of records to show
+        per page, defaults to ``30``
     """
 
     def get_basequery(self):
@@ -152,15 +159,48 @@ class ListModelMixin(BaseModelMixin):
 
         return base_query
 
-    def get_objects(self):
-        """ Returns a list of objects.
+    def get_per_page(self):
+        """ Returns the number of records to show per page for paginated
+        result sets. Defaults to ``30``
 
         Returns
         -------
-        list
-            List of model object instances
+        int
+            Number of records per page
+        """
+
+        return getattr(self, 'num_per_page', 30)
+
+    def get_page(self):
+        """ Attempt to get the current page number, assumes a HTTP GET
+        query param called ``page`` is availible in ``flask.request.args``
+        which holds the page number.
+        """
+
+        try:
+            page = int(request.args.get('page', 1))
+        except ValueError:
+            raise ValueError('page GET param must be number')
+
+        return page
+
+    def get_objects(self):
+        """ Returns a list of objects and pagination object if ``paginate``
+        is ``True``, else None will be returned when ``paginate`` is not set
+        or ``False``.
+
+        Returns
+        -------
+        tuple
+            List of model object instances, Pagination object or None
         """
 
         query = self.get_basequery()
 
-        return query.all()
+        if getattr(self, 'paginate', False):
+            page = self.get_page()
+            pagination = query.paginate(page, per_page=self.get_per_page())
+
+            return pagination.items, pagination
+
+        return query.all(), None

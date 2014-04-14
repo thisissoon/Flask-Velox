@@ -49,11 +49,3 @@ html_theme_options = {
     'inner_theme': True,
     'inner_theme_name': 'bootswatch-cerulean'
 }
-#html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-#html_static_path = ['_static']
-#html_theme_options = {
-#    'bootswatch_theme': 'Lumen',
-#    'bootstrap_version': '3',
-#}
-#pygments_style = 'sphinx'
-#htmlhelp_basename = 'Flask-Velox'
