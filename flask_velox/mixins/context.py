@@ -7,8 +7,8 @@ templates for rendering.
 Example
 -------
 
->>> from flask.ext.velox.views.context import ContextMixin
-... from flask.ext.velox.views.template import TemplateMixin
+>>> from flask.ext.velox.mixins.context import ContextMixin
+... from flask.ext.velox.mixins.template import TemplateMixin
 ...
 ... app = Flask(__name__)
 ...
