@@ -121,11 +121,9 @@ class ListModelMixin(BaseModelMixin):
     Example
     -------
     >>> from flask.ext.velox.mixins.sqla.model import ListModelMixin
-    >>> from yourapp import db
     >>> from yourapp.models import SomeModel
     ...
     >>> class MyView(ListModelMixin):
-    ...     session = db.session
     ...     model = SomeModel
     ...     base_query = SomeModel.query.filter(foo='bar')
 
@@ -204,3 +202,100 @@ class ListModelMixin(BaseModelMixin):
             return pagination.items, pagination
 
         return query.all(), None
+
+
+class TableModelMixin(ListModelMixin):
+    """ Mixin extends the default ``ListModelMixin`` behaviour adding
+    attributes for rendering lists in tables.
+
+    Example
+    -------
+    >>> from flask.ext.velox.mixins.sqla.model import TableModelMixin
+    >>> from yourapp.models import SomeModel
+    ...
+    >>> class MyView(TableModelMixin):
+    ...     model = SomeModel
+    ...     columns = ['field1', 'field2', 'field3']
+
+    Attributes
+    ----------
+    columns : list
+        A list of columns to render, this should map to model fields
+    formatters : dict
+        A dict of key value pairs mapping a field name (key) to a method
+        which formats the fields data, for example::
+
+            formatters = {
+                'field1': fmt_bool
+                'field1': fmt_datetime
+            }
+
+    """
+
+    def get_columns(self):
+        """ Returns the list of columns defined for the View using this Mixin.
+
+        Returns
+        -------
+        list
+            List of strings of model field names
+
+        Raises
+        ------
+        NotImplementedError
+            If ``columns`` is not defined
+        """
+
+        try:
+            return self.columns
+        except AttributeError:
+            raise NotImplementedError('``columns`` is not defined')
+
+    def get_formatters(self):
+        """ Return formatters defined for the View using this Mixin.
+
+        Returns
+        -------
+        dict or None
+            Returns defined formatters or None
+        """
+
+        return getattr(self, 'formatters', None)
+
+    def format(self, field, instance):
+        """ Format a given field name and instance with defined formatter
+        if a formatter is defined for the specific field. This method
+        is added to the context for use in a template, for example::
+
+            {% for object in objects %}
+                {% for column in columns %}
+                    {{ format(column, object) }}
+                {% endfor %}
+            {% endfor %}
+
+        Arguments
+        ---------
+        field : str
+            Field name on model
+        instance : obj
+            Instance of model
+
+        Returns
+        -------
+        anything
+            Formatted value
+        """
+
+        formatters = self.get_formatters()
+
+        try:
+            value = getattr(instance, field)
+        except AttributeError:
+            return 'Invalid Attribute: {0}'.format(field)
+
+        if formatters:
+            formatter = formatters.get(field)
+            if formatter:
+                value = formatter(value)
+
+        return value
