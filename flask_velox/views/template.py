@@ -28,7 +28,7 @@ from flask_velox.mixins.context import ContextMixin
 from flask_velox.mixins.template import TemplateMixin
 
 
-class TemplateView(TemplateMixin, ContextMixin):
+class TemplateView(ContextMixin, TemplateMixin):
     """ Renders a template with optionl context.
 
     Attributes

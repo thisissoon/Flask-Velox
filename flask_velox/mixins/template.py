@@ -66,7 +66,7 @@ class TemplateMixin(MethodView):
     def render(self):
         """ Renders a template. This method will attempt to pass context
         to the template but if the ``context`` attribute does not exist then
-        an empty dict will be passwed to the ``render_template`` method.
+        an empty dict will be passed to the ``render_template`` method.
 
         Returns
         -------

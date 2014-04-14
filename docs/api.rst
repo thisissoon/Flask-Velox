@@ -6,3 +6,4 @@ API
 
     api/mixins
     api/views
+    api/admin
