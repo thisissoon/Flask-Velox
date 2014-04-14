@@ -9,5 +9,5 @@ pdbpp
 
 # Documentation
 Sphinx==1.2.2
-sphinx-better-theme==0.13
+sphinx-bootstrap-theme==0.4.0
 sphinxcontrib-napoleon==0.2.6
