@@ -11,6 +11,14 @@ flask_velox.mixins.context
     :members:
     :private-members:
 
+flask_velox.mixins.sqla.model
+-----------------------------
+
+.. automodule:: flask_velox.mixins.sqla.model
+    :members:
+    :private-members:
+    :show-inheritance:
+
 flask_velox.mixins.template
 ---------------------------
 
