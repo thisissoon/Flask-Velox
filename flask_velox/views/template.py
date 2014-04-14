@@ -23,9 +23,10 @@ Example
 
 from flask import render_template
 from flask.views import MethodView
+from flask_velox.views.context import ContextMixin
 
 
-class TemplateView(MethodView):
+class TemplateMixin(MethodView):
     """ Renders a template on HTTP GET request as long as the ``template``
     attribute is defined.
 
@@ -75,3 +76,30 @@ class TemplateView(MethodView):
         """
 
         return render_template(self._template)
+
+
+class TemplateView(TemplateMixin, ContextMixin):
+    """ Renders a template with optionl context.
+
+    Attributes
+    ----------
+    template : str
+        Relative template path, e.g: ``templates/home.html``
+    context : dict, optional
+        Default context to use when rendering the template
+
+    Example
+    -------
+    >>> class HomeView(TemplateView):
+    ...     template = 'templates/home.html'
+    ...     context = {
+    ...         'hello': 'word'
+    ...     }
+
+    References
+    ----------
+    * :py:class:`flask_velox.views.template.TemplateMixin`
+    * :py:class:`flask_velox.views.context.ContextMixin`
+    """
+
+    pass
