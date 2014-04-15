@@ -251,6 +251,42 @@ class TableModelMixin(ListModelMixin):
         except AttributeError:
             raise NotImplementedError('``columns`` is not defined')
 
+    def column_name(self, name):
+        """ Attempts to get a human friendly  name for the column. First it
+        will look for an ``info`` attribute on the model field, if present
+        will then return ``label`` value of the ``info`` ``dict``. If not
+        present this method will replace underscore characters with spaces and
+        simply title case the individual words.
+
+        An example model with an ``info`` attribute, this is the same
+        behaviour as ``WTForms-Alchemy``::
+
+            class MyModel(db.Model):
+                field = db.Column(db.Unicode, info={
+                    'label' = 'My Field'
+                })
+
+        Arguments
+        ---------
+        name : str
+            The column name mapping to a model field attribute
+
+        Returns
+        -------
+        str
+            Human friendly field name
+        """
+
+        model = self.get_model()
+        field = getattr(model, name)  # This could AttributeError
+
+        try:
+            name = field.info['label']
+        except (AttributeError, KeyError):
+            name = name.replace('_', ' ').title()
+
+        return name
+
     def get_formatters(self):
         """ Return formatters defined for the View using this Mixin.
 
@@ -262,14 +298,14 @@ class TableModelMixin(ListModelMixin):
 
         return getattr(self, 'formatters', None)
 
-    def format(self, field, instance):
+    def format_value(self, field, instance):
         """ Format a given field name and instance with defined formatter
         if a formatter is defined for the specific field. This method
         is added to the context for use in a template, for example::
 
             {% for object in objects %}
                 {% for column in columns %}
-                    {{ format(column, object) }}
+                    {{ format_value(column, object) }}
                 {% endfor %}
             {% endfor %}
 
