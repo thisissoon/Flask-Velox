@@ -6,7 +6,7 @@ Module provides classes for integrating ``Flask-Velox`` Views with
 """
 
 from flask_velox.views.template import TemplateView
-from flask_velox.admin.mixins import AdminTemplateMixin
+from flask_velox.admin.mixins.template import AdminTemplateMixin
 
 
 class AdminTemplateView(TemplateView, AdminTemplateMixin):
