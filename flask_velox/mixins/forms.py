@@ -33,7 +33,7 @@ class FormMixin(object):
         Raw Flask url rule, e.g: 'some.url.rule'
     """
 
-    def get_form(self):
+    def get_form_class(self):
         """ Returns defined ``form_class`` or riases NotImplementedError
 
         Returns
@@ -48,7 +48,7 @@ class FormMixin(object):
         """
 
         try:
-            return self.form_class
+            return self.form
         except AttributeError:
             raise NotImplementedError('``form_class`` must be defined')
 
@@ -75,7 +75,7 @@ class FormMixin(object):
 
         return redirect(url_for(rule))
 
-    def form(self):
+    def get_form(self):
         """ Returns an instantiated WTForm class.
 
         Returns
@@ -84,8 +84,10 @@ class FormMixin(object):
             Instantiated form
         """
 
-        form = getattr(self, '_form', self.get_form()())
+        form = getattr(self, '_form', self.get_form_class()())
         if form.validate_on_submit():
             return self.success_callback()
+
+        self._form = form
 
         return form

@@ -20,10 +20,26 @@ flask_velox.mixins.forms
     :private-members:
     :show-inheritance:
 
+flask_velox.mixins.sqla.forms
+-----------------------------
+
+.. automodule:: flask_velox.mixins.sqla.forms
+    :members:
+    :private-members:
+    :show-inheritance:
+
 flask_velox.mixins.sqla.model
 -----------------------------
 
 .. automodule:: flask_velox.mixins.sqla.model
+    :members:
+    :private-members:
+    :show-inheritance:
+
+flask_velox.mixins.sqla.object
+------------------------------
+
+.. automodule:: flask_velox.mixins.sqla.object
     :members:
     :private-members:
     :show-inheritance:
