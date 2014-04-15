@@ -7,6 +7,8 @@ Note
 Flask-WTForms must be installed
 """
 
+from flask import redirect, url_for
+
 
 class FormMixin(object):
     """ Mixin adds support for from rendering and validation.
@@ -27,6 +29,8 @@ class FormMixin(object):
     ----------
     form_class : class
         An uninstantiated WTForm class
+    redirect_url_rule : str
+        Raw Flask url rule, e.g: 'some.url.rule'
     """
 
     def get_form(self):
@@ -48,6 +52,29 @@ class FormMixin(object):
         except AttributeError:
             raise NotImplementedError('``form_class`` must be defined')
 
+    def success_callback(self):
+        """ Called on successful form validation, by default this will perform
+        a redirect if ``redirect_url_rule`` is defined. Override this method
+        to perform any custom actions on successful form validation.
+
+        Returns
+        -------
+        werkzeug.wrappers.Response
+            Redirects request to somewhere else
+
+        Raises
+        ------
+        NotImplementedError
+            If ``redirect_url_rule`` is not defined
+        """
+
+        try:
+            rule = self.redirect_url_rule
+        except AttributeError:
+            raise NotImplementedError('``redirect_url_rule`` required.')
+
+        return redirect(url_for(rule))
+
     def form(self):
         """ Returns an instantiated WTForm class.
 
@@ -57,4 +84,8 @@ class FormMixin(object):
             Instantiated form
         """
 
-        pass
+        form = getattr(self, '_form', self.get_form()())
+        if form.validate_on_submit():
+            return self.success_callback()
+
+        return form
