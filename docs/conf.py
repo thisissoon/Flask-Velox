@@ -33,7 +33,6 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 extensions = [
-    'sphinxjp.themes.basicstrap',
     'sphinx.ext.autodoc',
     'sphinxcontrib.napoleon',
     'sphinx.ext.doctest',
@@ -44,8 +43,6 @@ extensions = [
 exclude_patterns = []
 
 # Theme
-html_theme = 'basicstrap'
-html_theme_options = {
-    'inner_theme': True,
-    'inner_theme_name': 'bootswatch-cerulean'
-}
+sys.path.append(os.path.abspath('_themes'))
+html_theme_path = ['_themes']
+html_theme = 'flask'

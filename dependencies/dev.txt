@@ -9,5 +9,4 @@ pdbpp
 
 # Documentation
 Sphinx==1.2.2
-sphinxjp.themes.basicstrap
 sphinxcontrib-napoleon==0.2.6
