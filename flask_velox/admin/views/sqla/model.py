@@ -49,6 +49,7 @@ class AdminModelTableView(
         * ``update_url``: Update url method
         * ``delete_url_rule``: The raw url rule or ``None``
         * ``delete_url``: Delete url method
+        * ``with_selcted``: With selcted values
 
         Returns
         -------
@@ -63,6 +64,7 @@ class AdminModelTableView(
             'update_url': self.update_url,
             'delete_url_rule': self.get_delete_url_rule(),
             'delete_url': self.delete_url,
+            'with_selected': self.get_with_selected(),
         })
 
         return super(AdminModelTableView, self).get(admin)

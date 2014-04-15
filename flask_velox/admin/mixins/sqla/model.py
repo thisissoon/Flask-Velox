@@ -88,6 +88,18 @@ class AdminTableModelMixin(TableModelMixin):
 
         return getattr(self, 'delete_url_rule', None)
 
+    def get_with_selected(self):
+        """ Just returns the value of ``with_selected`` or None of not
+        defined.
+
+        Returns
+        -------
+        dict or None
+            Values of ``with_selcted``
+        """
+
+        return getattr(self, 'with_selected', None)
+
     def create_url(self, **kwargs):
         """ Returns the url to a create endpoint, this is used to render a link
         in admin table views with the destination of this url, should be added
