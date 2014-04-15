@@ -44,5 +44,12 @@ exclude_patterns = []
 
 # Theme
 sys.path.append(os.path.abspath('_themes'))
-html_theme_path = ['_themes']
-html_theme = 'flask'
+html_theme_path = ['_themes', ]
+html_static_path = ['_static', ]
+html_theme = 'kr'
+html_sidebars = {
+    'index':    ['sidebar_intro.html', 'localtoc.html', 'relations.html',
+                 'sourcelink.html', 'searchbox.html'],
+    '**':       ['sidebar_intro.html', 'localtoc.html', 'relations.html',
+                 'sourcelink.html', 'searchbox.html']
+}
