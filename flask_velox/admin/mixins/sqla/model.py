@@ -100,7 +100,7 @@ class AdminTableModelMixin(TableModelMixin):
 
         Arguments
         ---------
-        **kwargs
+        \*\*kwargs
             Arbitrary keyword arguments passed to ``Flask.url_for``
 
         Returns
@@ -130,7 +130,7 @@ class AdminTableModelMixin(TableModelMixin):
         ---------
         pk : any
             Object primary key, could be any type
-        **kwargs
+        \*\*kwargs
             Arbitrary keyword arguments passed to ``Flask.url_for``
 
         Returns
@@ -160,7 +160,7 @@ class AdminTableModelMixin(TableModelMixin):
         ---------
         pk : any
             Object primary key, could be any type
-        **kwargs
+        \*\*kwargs
             Arbitrary keyword arguments passed to ``Flask.url_for``
 
         Returns
