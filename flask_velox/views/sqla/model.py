@@ -18,22 +18,26 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
 
     Example
     -------
-    >>> from flask import Flask
-    >>> from flask.ext.sqlalchemy import SQLAlchemy
-    >>> from flask.ext.velox.views.sqla.model import ModelListView
-    >>> from yourapp.models import SomeModel
-    ...
-    >>> app = Flask(__name__)
-    >>> db = SQLAlchemy(app)
-    ...
-    >>> class MyListView(ModelListView):
-    ...     template = 'templates/list.html'
-    ...     session = db.session
-    ...     model = SomeModel
-    ...
-    >>> app.add_url_rule('/', view_func=MyListView.as_view('list'))
-    ...
-    >>> app.run()
+
+    .. code-block:: python
+        :linenos:
+
+        from flask import Flask
+        from flask.ext.sqlalchemy import SQLAlchemy
+        from flask.ext.velox.views.sqla.model import ModelListView
+        from yourapp.models import SomeModel
+
+        app = Flask(__name__)
+        db = SQLAlchemy(app)
+
+        class MyListView(ModelListView):
+            template = 'templates/list.html'
+            session = db.session
+            model = SomeModel
+
+        app.add_url_rule('/', view_func=MyListView.as_view('list'))
+
+        app.run()
 
     """
 

@@ -6,18 +6,21 @@ Module provides mixins for rendering templates using Flask `MethodView`.
 Example
 -------
 
->>> from flask import Flask
-... from flask.ext.velox.mixins.template import TemplateMixin
-... from flask.views import MethodView
-...
-... app = Flask(__name__)
-...
-... class MyView(TemplateMixin):
-...     template = 'templates/home.html'
-...
-... app.add_url_rule('/', view_func=MyView.as_view('myview'))
-...
-... app.run()
+.. code-block:: python
+    :linenos:
+
+    from flask import Flask
+    from flask.ext.velox.mixins.template import TemplateMixin
+    from flask.views import MethodView
+
+    app = Flask(__name__)
+
+    class MyView(TemplateMixin):
+        template = 'templates/home.html'
+
+    app.add_url_rule('/', view_func=MyView.as_view('myview'))
+
+    app.run()
 
 """
 
@@ -36,8 +39,12 @@ class TemplateMixin(MethodView):
 
     Example
     -------
-    >>> class MyView(TemplateMixin):
-    ...     template = 'templates/home.html'
+
+    .. code-block:: python
+        :linenos:
+
+        class MyView(TemplateMixin):
+            template = 'templates/home.html'
 
     """
 

@@ -19,15 +19,18 @@ class AdminTableModelMixin(TableModelMixin):
 
     Example
     -------
-    >>> from yourapp.models import MyModel
-    >>> class MyView(AdminTableModelMixin):
-    ...     model = MyModel
-    ...     create_url_rule = 'admin.mymodel.create'
-    ...     update_url_rule = 'admin.mymodel.update'
-    ...     delete_url_rule = 'admin.mymodel.delete'
-    ...     with_selected = {
-    ...        'Delete': 'admin.mymodel.delete',
-    ...     }
+    .. code-block:: python
+        :linenos:
+
+        from yourapp.models import MyModel
+        class MyView(AdminTableModelMixin):
+            model = MyModel
+            create_url_rule = 'admin.mymodel.create'
+            update_url_rule = 'admin.mymodel.update'
+            delete_url_rule = 'admin.mymodel.delete'
+            with_selected = {
+               'Delete': 'admin.mymodel.delete',
+            }
 
     Note
     ----

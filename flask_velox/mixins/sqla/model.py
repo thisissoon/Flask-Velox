@@ -10,15 +10,18 @@ Flask SQLAlchemy must be installed
 Example
 -------
 
->>> from flask.ext.velox.mixins.sqla.model import ModelMixin
->>> from yourapp import db
->>> from yourapp.models import SomeModel
-...
->>> app = Flask(__name__)
-...
->>> class MyView(ModelMixin):
-...     session = db.session
-...     model = SomeModel
+.. code-block:: python
+    :linenos:
+
+    from flask.ext.velox.mixins.sqla.model import ModelMixin
+    from yourapp import db
+    from yourapp.models import SomeModel
+
+    app = Flask(__name__)
+
+    class MyView(ModelMixin):
+        session = db.session
+        model = SomeModel
 
 """
 
@@ -120,12 +123,16 @@ class ListModelMixin(BaseModelMixin):
 
     Example
     -------
-    >>> from flask.ext.velox.mixins.sqla.model import ListModelMixin
-    >>> from yourapp.models import SomeModel
-    ...
-    >>> class MyView(ListModelMixin):
-    ...     model = SomeModel
-    ...     base_query = SomeModel.query.filter(foo='bar')
+
+    .. code-block:: python
+        :linenos:
+
+        from flask.ext.velox.mixins.sqla.model import ListModelMixin
+        from yourapp.models import SomeModel
+
+        class MyView(ListModelMixin):
+            model = SomeModel
+            base_query = SomeModel.query.filter(foo='bar')
 
     Attributes
     ----------
@@ -210,12 +217,16 @@ class TableModelMixin(ListModelMixin):
 
     Example
     -------
-    >>> from flask.ext.velox.mixins.sqla.model import TableModelMixin
-    >>> from yourapp.models import SomeModel
-    ...
-    >>> class MyView(TableModelMixin):
-    ...     model = SomeModel
-    ...     columns = ['field1', 'field2', 'field3']
+
+    .. code-block:: python
+        :linenos:
+
+        from flask.ext.velox.mixins.sqla.model import TableModelMixin
+        from yourapp.models import SomeModel
+
+        class MyView(TableModelMixin):
+            model = SomeModel
+            columns = ['field1', 'field2', 'field3']
 
     Attributes
     ----------

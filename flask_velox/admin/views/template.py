@@ -20,21 +20,25 @@ class AdminTemplateView(TemplateView, AdminTemplateMixin):
 
     Example
     -------
-    >>> from flask import Flask
-    >>> from flask.ext.admin import Admin, BaseView, expose_pluggable
-    >>> from flask.ext.velox.admin.views import AdminTemplateView
-    ...
-    >>> app = Flask(__name__)
-    >>> admin = Admin(app)
-    ...
-    >>> class AdminIndexView(BaseView):
-    ...
-    ...     @expose_pluggable('/')
-    ...     class index(AdminTemplateView):
-    ...         template = 'admin/index.html'
-    ...
-    >>> admin.add_view(AdminIndexView(name='index'))
-    >>> app.run()
+
+    .. code-block:: python
+        :linenos:
+
+        from flask import Flask
+        from flask.ext.admin import Admin, BaseView, expose_pluggable
+        from flask.ext.velox.admin.views import AdminTemplateView
+
+        app = Flask(__name__)
+        admin = Admin(app)
+
+        class AdminIndexView(BaseView):
+
+            @expose_pluggable('/')
+            class index(AdminTemplateView):
+                template = 'admin/index.html'
+
+        admin.add_view(AdminIndexView(name='index'))
+        app.run()
 
     """
 

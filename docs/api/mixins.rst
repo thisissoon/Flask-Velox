@@ -12,6 +12,14 @@ flask_velox.mixins.context
     :private-members:
     :show-inheritance:
 
+flask_velox.mixins.forms
+------------------------
+
+.. automodule:: flask_velox.mixins.forms
+    :members:
+    :private-members:
+    :show-inheritance:
+
 flask_velox.mixins.sqla.model
 -----------------------------
 

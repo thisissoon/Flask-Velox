@@ -7,19 +7,22 @@ templates for rendering.
 Example
 -------
 
->>> from flask.ext.velox.mixins.context import ContextMixin
-... from flask.ext.velox.mixins.template import TemplateMixin
-...
-... app = Flask(__name__)
-...
-... class MyView(TemplateMixin, ContextMixin):
-...     default_context = {
-...         'foo': 'bar'
-...     }
-...
-... app.add_url_rule('/', view_func=MyView.as_view('myview'))
-...
-... app.run()
+.. code-block:: python
+    :linenos:
+
+    from flask.ext.velox.mixins.context import ContextMixin
+    from flask.ext.velox.mixins.template import TemplateMixin
+
+    app = Flask(__name__)
+
+    class MyView(TemplateMixin, ContextMixin):
+        default_context = {
+            'foo': 'bar'
+        }
+
+    app.add_url_rule('/', view_func=MyView.as_view('myview'))
+
+    app.run()
 
 """
 
@@ -36,10 +39,14 @@ class ContextMixin(object):
 
     Example
     -------
-    >>> class FooView(ContextMixin):
-    ...     default_context = {
-    ...         'foo': 'bar',
-    ...     }
+
+    .. code-block:: python
+        :linenos:
+
+        class FooView(ContextMixin):
+            default_context = {
+                'foo': 'bar',
+            }
 
     """
 
