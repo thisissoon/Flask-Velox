@@ -50,7 +50,7 @@ class AdminTemplateMixin(TemplateMixin):
             self._template,
             **getattr(self, 'context', {}))
 
-    def get(self, admin):
+    def get(self, admin, *args, **kwargs):
         """ Handles HTTP GET requests to View. Also sets ``self._admin``
         which contains the passed admin view.
 
@@ -66,4 +66,4 @@ class AdminTemplateMixin(TemplateMixin):
         """
 
         self._admin = admin
-        return super(AdminTemplateMixin, self).get()
+        return super(AdminTemplateMixin, self).get(*args, **kwargs)

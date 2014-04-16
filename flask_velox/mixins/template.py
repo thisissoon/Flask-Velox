@@ -86,7 +86,7 @@ class TemplateMixin(MethodView):
             self._template,
             **getattr(self, 'context', {}))
 
-    def get(self):
+    def get(self, *args, **kwargs):
         """ Handle HTTP GET requets using Flask ``MethodView`` rendering a
         single html template.
 

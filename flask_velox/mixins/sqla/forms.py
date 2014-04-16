@@ -49,7 +49,7 @@ class CrateModelFormMixin(ModelFormMixin):
 
         See Also
         --------
-        :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
+        * :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
 
         Returns
         -------
@@ -85,7 +85,7 @@ class UpdateModelFormMixin(ModelFormMixin):
 
         See Also
         --------
-        :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
+        * :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
 
         Returns
         -------
@@ -108,3 +108,20 @@ class UpdateModelFormMixin(ModelFormMixin):
         flash('successfully updated {0}'.format(obj), 'success')
 
         return super(UpdateModelFormMixin, self).success_callback()
+
+    def instantiate_form(self):
+        """ Overrides form instantiation so object instance can be passed
+        to the form.
+
+        See Also
+        --------
+        * :py:meth:`flask_velox.mixins.forms.FormMixin.instantiate_form`
+
+        Returns
+        -------
+        object
+            Instantiated form
+        """
+
+        obj = self.get_object()
+        return self.get_form_class()(obj=obj)

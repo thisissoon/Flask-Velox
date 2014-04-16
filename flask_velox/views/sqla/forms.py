@@ -14,11 +14,53 @@ Requires the following packages are installed:
 from flask_velox.mixins.context import ContextMixin
 from flask_velox.mixins.template import TemplateMixin
 from flask_velox.mixins.sqla.forms import (
-    CrateModelFormMixin)
+    CrateModelFormMixin,
+    UpdateModelFormMixin)
 
 
-class CreateModelView(CrateModelFormMixin, ContextMixin, TemplateMixin):
+class BaseModelView(ContextMixin, TemplateMixin):
     """
+    """
+
+    methods = ['GET', 'POST', ]
+
+    def set_context(self):
+        """ Overrides ``set_context`` to set extra context variables.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+        """
+
+        super(BaseModelView, self).set_context()
+
+        self.merge_context({
+            'form': self.get_form(),
+            'model': self.get_model()
+        })
+
+        try:
+            from flask.ext.wtf.form import _is_hidden
+            self.add_context('is_hidden_field', _is_hidden)
+        except ImportError:
+            pass
+
+    def post(self, *args, **kwargs):
+        """ Handle HTTP POST requets using Flask ``MethodView`` rendering a
+        single html template.
+
+        Returns
+        -------
+        str
+            Rendered template
+        """
+
+        return self.render()
+
+
+class CreateModelView(CrateModelFormMixin, BaseModelView):
+    """ View for creating new model objects.
+
     Example
     -------
 
@@ -37,22 +79,28 @@ class CreateModelView(CrateModelFormMixin, ContextMixin, TemplateMixin):
             form = MyForm
     """
 
-    methods = ['GET', 'POST', ]
+    pass
 
-    def __init__(self, *args, **kwargs):
-        """ Constructor, performs initial project setup and adds extra
-        context variables.
-        """
 
-        super(CreateModelView, self).__init__(*args, **kwargs)
+class UpdateModelFormMixin(UpdateModelFormMixin, BaseModelView):
+    """ View for creating new model objects.
 
-        self.merge_context({
-            'form': self.get_form(),
-            'model': self.get_model()
-        })
+    Example
+    -------
 
-        try:
-            from flask.ext.wtf.form import _is_hidden
-            self.add_context('is_hidden_field', _is_hidden)
-        except ImportError:
-            pass
+    .. code-block:: python
+        :linenos:
+
+        from flask.ext.velox.views.sqla.forms import UpdateModelView
+        from yourapp import db
+        from yourapp.forms import MyForm
+        from yourapp.models import MyModel
+
+        class MyView(UpdateModelView):
+            template = 'create.html'
+            session = db.session
+            model = MyMod
+            form = MyForm
+    """
+
+    pass

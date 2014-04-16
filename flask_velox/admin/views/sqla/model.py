@@ -35,7 +35,7 @@ class AdminModelTableView(
 
     template = 'admin/forms/table.html'
 
-    def get(self, admin):
+    def get(self, admin, *args, **kwargs):
         """ Handle HTTP GET requests using Flask ``MethodView`` rendering a
         single html template.
 
@@ -67,4 +67,4 @@ class AdminModelTableView(
             'with_selected': self.get_with_selected(),
         })
 
-        return super(AdminModelTableView, self).get(admin)
+        return super(AdminModelTableView, self).get(admin, *args, **kwargs)

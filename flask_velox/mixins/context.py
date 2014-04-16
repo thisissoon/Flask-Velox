@@ -60,8 +60,15 @@ class ContextMixin(object):
         #: Holds the context value for the instance
         self._context = {}
 
+        # Merge default context into context if exists
         default_context = getattr(self, 'default_context', {})
         self.merge_context(default_context)
+
+        # Call a callback method so class extending this can
+        # have a method override just for context rather than
+        # overridding HTTP verb methods such as get, post etc
+        if hasattr(self, 'set_context'):
+            self.merge_context(self.set_context())
 
     @property
     def context(self):
@@ -145,11 +152,20 @@ class ContextMixin(object):
 
         """
 
-        _context = self._context
-        new = dict(_context.items() + subject.items())
-        self._context = new
+        context = self._context
+        if subject:
+            context = dict(context.items() + subject.items())
+            self._context = context
 
-        return new
+        return context
+
+    def set_context(self):
+        """ A method which should be overridden when required to set extra
+        context on a per view basis. This method is not required to be
+        implemented however is the recommended way of setting extra context
+        """
+
+        pass
 
     def add_context(self, key, val):
         """

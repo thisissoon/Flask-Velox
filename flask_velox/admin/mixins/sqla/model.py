@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """ Mixin classes specific to ``Flask-Admin`` and ``Flask-SQLAlchemy``
 based views.
 
@@ -130,21 +132,19 @@ class AdminTableModelMixin(TableModelMixin):
 
         return None
 
-    def update_url(self, pk, **kwargs):
+    def update_url(self, **kwargs):
         """ Returns the url for updating a specific record, this method
         needs to be passed to the context of the view so it can be used
         in the template, for example::
 
             {% for object in objects %}
-                <a href="{{ update_url(object.id) }}">Update</a>
+                <a href="{{ update_url(id=object.id) }}">Update</a>
             {% endfor %}
 
         If ``update_url_rule`` is not defined ``None`` will be returned.
 
         Arguments
         ---------
-        pk : any
-            Object primary key, could be any type
         \*\*kwargs
             Arbitrary keyword arguments passed to ``Flask.url_for``
 
@@ -156,25 +156,23 @@ class AdminTableModelMixin(TableModelMixin):
 
         rule = getattr(self, 'update_url_rule', None)
         if rule:
-            return url_for(rule, pk=pk, **kwargs)
+            return url_for(rule, **kwargs)
 
         return None
 
-    def delete_url(self, pk, **kwargs):
+    def delete_url(self, **kwargs):
         """ Returns the url for deleting a specific record, this method
         needs to be passed to the context of the view so it can be used
         in the template, for example::
 
             {% for object in objects %}
-                <a href="{{ delete_url(object.id) }}">Delete</a>
+                <a href="{{ delete_url(id=object.id) }}">Delete</a>
             {% endfor %}
 
         If ``delete_url_rule`` is not defined ``None`` will be returned.
 
         Arguments
         ---------
-        pk : any
-            Object primary key, could be any type
         \*\*kwargs
             Arbitrary keyword arguments passed to ``Flask.url_for``
 
@@ -186,6 +184,6 @@ class AdminTableModelMixin(TableModelMixin):
 
         rule = getattr(self, 'delete_url_rule', None)
         if rule:
-            return url_for(rule, pk=pk, **kwargs)
+            return url_for(rule, **kwargs)
 
         return None
