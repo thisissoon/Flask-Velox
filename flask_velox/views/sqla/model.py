@@ -41,17 +41,19 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
 
     """
 
-    def get(self):
-        """ Handle HTTP GET requests using Flask ``MethodView`` rendering a
-        single html template.
+    def set_context(self):
+        """ Adds extra context to SQLAlchemy based list views.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
 
         Note
         ----
-        This overrides :py:meth:`flask_velox.mixins.template.TemplateMixin.get`
-        adding the following to the context:
+        Adds the following context variables.
 
-        * ``objects``: List of objects to iterate
-        * ``paginatation``: Pagination object for paging objects or None
+        * ``objects``: List of model objects
+        * ``pagination``: Pagination object or ``None``
 
         Returns
         -------
@@ -59,12 +61,12 @@ class ModelListView(ListModelMixin, ContextMixin, TemplateMixin):
             Rendered template
         """
 
+        super(ModelListView, self).set_context()
+
         objects, pagination = self.get_objects()
 
         self.add_context('objects', objects)
         self.add_context('pagination', pagination)
-
-        return super(ModelListView, self).get()
 
 
 class TableModelView(TableModelMixin, ModelListView):
@@ -72,18 +74,20 @@ class TableModelView(TableModelMixin, ModelListView):
     adding extra attributes to configure the table output.
     """
 
-    def get(self):
-        """ Handle HTTP GET requests using Flask ``MethodView`` rendering a
-        single html template.
+    def set_context(self):
+        """ Adds extra context to SQLAlchemy table based list views.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
 
         Note
         ----
-        This overrides :py:meth:`ModelListView.get` adding the following
-        context attributes:
+        Adds the following context variables.
 
         * ``columns``: List of columns
-        * ``column_name``: Function used to get human freindly names
-        * ``format_value``: Function used to format output field values
+        * ``column_name``: ``column_name`` function
+        * ``format_value``: ``format_value`` function
 
         Returns
         -------
@@ -91,8 +95,8 @@ class TableModelView(TableModelMixin, ModelListView):
             Rendered template
         """
 
+        super(TableModelView, self).set_context()
+
         self.add_context('columns', self.get_columns())
         self.add_context('column_name', self.column_name)
         self.add_context('format_value', self.format_value)
-
-        return super(TableModelView, self).get()
