@@ -47,7 +47,7 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
 
         super(DeleteObjectMixin, self).__init__(*args, **kwargs)
 
-        self.delete_object()
+        self.delete()
 
     @property
     def can_delete(self):
@@ -133,6 +133,13 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
         rule = self.get_cancel_url_rule()
         return url_for(rule, **kwargs)
 
+    def flash_success_message(self):
+        """ Flashes a success message to the user.
+        """
+
+        obj = self.get_object()  # will be cached in self._obj
+        flash('{0} was successfuly deleted'.format(obj), 'success')
+
     def success_callback(self):
         """ Success callback called after object has been deleted.
         Override this to customise what happens after an object is delted
@@ -143,9 +150,7 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
             When object is deleted to force a redirect to another View
         """
 
-        obj = self.get_object()  # will be cached in self._obj
-
-        flash('{0} was successfuly deleted'.format(obj), 'success')
+        self.flash_success_message()
 
         try:
             rule = self.redirect_url_rule
@@ -154,7 +159,7 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
 
         raise RequestRedirect(url_for(rule))
 
-    def delete_object(self):
+    def delete(self):
         """ Deletes the object, only if :py:meth:`can_delete` returns ``True``.
         """
 
@@ -167,6 +172,77 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
 
             # Delete the object
             session.delete(obj)
+            session.commit()  # Delete happens here
+
+            # Call the callback
+            self.success_callback()
+
+
+class MultiDeleteObjectMixin(DeleteObjectMixin):
+    """ Mixin provides functionality to delete mutliple objects of the same
+    model.
+    """
+
+    def set_context(self):
+        """ Override context to add objects rather than object to the
+        context.
+        """
+
+        super(MultiDeleteObjectMixin, self).set_context()
+
+        self.add_context('objects', self.get_objects())
+
+    def get_objects(self):
+        """ Returns a set of objects set for deletion. List of objects is
+        retrived from a HTTP POST list called ``objects``.
+
+        Returns
+        -------
+        set
+            Set of objects to delete
+        """
+
+        try:
+            return self._objs
+        except AttributeError:
+
+            objects = set()
+            model = self.get_model()
+
+            # Values to use in object lookup, could id for example or slug etc
+            vals = request.values.getlist('objects')
+
+            try:
+                field = getattr(model, self.get_lookup_field())
+            except AttributeError:
+                raise AttributeError('Lookup field does not exist')
+
+            for obj in model.query.filter(field.in_(vals)).all():
+                objects.add(obj)
+
+            self._objs = objects
+            return objects
+
+    def flash_success_message(self):
+        """ Flashes a success message to the user.
+        """
+
+        objs = self.get_objects()
+        flash('{0} objects successfuly deleted'.format(len(objs)), 'success')
+
+    def delete(self):
+        """ Override default delete functionality adding the ability to
+        delete multiple objects of the same model but only if
+        :py:meth:`can_delete` is ``True``.
+        """
+
+        # Only delete if ?confirmed=True or confirm = False
+        if self.can_delete:
+
+            session = self.get_session()
+            for obj in self.get_objects():
+                session.delete(obj)
+
             session.commit()  # Delete happens here
 
             # Call the callback
