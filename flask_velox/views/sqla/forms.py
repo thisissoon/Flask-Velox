@@ -11,54 +11,13 @@ Requires the following packages are installed:
 * Flask-WTForms
 """
 
-from flask_velox.mixins.context import ContextMixin
-from flask_velox.mixins.template import TemplateMixin
 from flask_velox.mixins.sqla.forms import (
     CrateModelFormMixin,
-    UpdateModelFormMixin)
+    UpdateModelFormMixin,
+    UpdateModelMultiFormMixin)
 
 
-class BaseModelView(ContextMixin, TemplateMixin):
-    """
-    """
-
-    methods = ['GET', 'POST', ]
-
-    def set_context(self):
-        """ Overrides ``set_context`` to set extra context variables.
-
-        See Also
-        --------
-        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
-        """
-
-        super(BaseModelView, self).set_context()
-
-        self.merge_context({
-            'form': self.get_form(),
-            'model': self.get_model()
-        })
-
-        try:
-            from flask.ext.wtf.form import _is_hidden
-            self.add_context('is_hidden_field', _is_hidden)
-        except ImportError:
-            pass
-
-    def post(self, *args, **kwargs):
-        """ Handle HTTP POST requets using Flask ``MethodView`` rendering a
-        single html template.
-
-        Returns
-        -------
-        str
-            Rendered template
-        """
-
-        return self.render()
-
-
-class CreateModelView(CrateModelFormMixin, BaseModelView):
+class CreateModelView(CrateModelFormMixin):
     """ View for creating new model objects.
 
     Example
@@ -75,15 +34,15 @@ class CreateModelView(CrateModelFormMixin, BaseModelView):
         class MyView(CreateModelView):
             template = 'create.html'
             session = db.session
-            model = MyMod
+            model = MyModel
             form = MyForm
     """
 
     pass
 
 
-class UpdateModelFormMixin(UpdateModelFormMixin, BaseModelView):
-    """ View for creating new model objects.
+class UpdateModelFormView(UpdateModelFormMixin):
+    """ View for updating model objects.
 
     Example
     -------
@@ -97,10 +56,37 @@ class UpdateModelFormMixin(UpdateModelFormMixin, BaseModelView):
         from yourapp.models import MyModel
 
         class MyView(UpdateModelView):
-            template = 'create.html'
+            template = 'update.html'
             session = db.session
-            model = MyMod
+            model = MyModel
             form = MyForm
+    """
+
+    pass
+
+
+class UpdateModelMultiFormView(UpdateModelMultiFormMixin):
+    """ View for rendering mutliple forms for a single object.
+
+    Example
+    -------
+
+    .. code-block:: python
+        :linenos:
+
+        from flask.ext.velox.views.sqla.forms import UpdateModelView
+        from yourapp import db
+        from yourapp.forms import FooForm, BarForm
+        from yourapp.models import MyModel
+
+        class MyView(UpdateModelView):
+            template = 'update.html'
+            session = db.session
+            model = MyModel
+            forms = [
+                ('Foo Form', FooForm),
+                ('Bar Form', BarForm)
+            ]
     """
 
     pass

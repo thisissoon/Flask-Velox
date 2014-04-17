@@ -12,36 +12,17 @@ The following packages must be installed:
 """
 
 from flask import flash
-from flask_velox.mixins.forms import FormMixin
+from flask_velox.mixins.forms import FormMixin, MultiFormMixin
 from flask_velox.mixins.sqla.object import SingleObjectMixin
 
 
-class ModelFormMixin(SingleObjectMixin, FormMixin):
-    """ Extends functionality provided by
-    :py:class:`flask_velox.mixins.forms.FormMixin` allowing for
-    SQLAlchemy model objects to be populated.
+class BaseCreateMixin(object):
+    """ Base Mixin for Creating a object with SQLAlchemy.
 
-    Example
+    Warning
     -------
-
-    .. code-block:: python
-        :linenos:
-
-        from flask.ext.velox.mixins.sqla.forms import ModelFormMixin
-        from yourapp.forms import MyForm
-        from yourapp.models import MyModel
-
-        class MyView(ModelFormMixin):
-            model = MyModel
-            form_class = MyForm
-    """
-
-    pass
-
-
-class CrateModelFormMixin(ModelFormMixin):
-    """ Handles creating objects after form validation has completed and
-    was successful.
+    This mixin cannot be used on it's own and should be used inconjunction
+    with others, such as :py:class:`ModelFormMixin`.
     """
 
     def success_callback(self):
@@ -73,11 +54,16 @@ class CrateModelFormMixin(ModelFormMixin):
 
         flash('successfully created {0}'.format(obj), 'success')
 
-        return super(CrateModelFormMixin, self).success_callback()
+        return super(BaseCreateMixin, self).success_callback()
 
 
-class UpdateModelFormMixin(ModelFormMixin):
-    """ Handels updating existing objects with form data.
+class BaseUpdateMixin(object):
+    """ Base Mixin for Updating an object with SQLAlchemy.
+
+    Warning
+    -------
+    This mixin cannot be used on it's own and should be used inconjunction
+    with others, such as :py:class:`ModelFormMixin`.
     """
 
     def success_callback(self):
@@ -107,15 +93,15 @@ class UpdateModelFormMixin(ModelFormMixin):
 
         flash('successfully updated {0}'.format(obj), 'success')
 
-        return super(UpdateModelFormMixin, self).success_callback()
+        return super(BaseUpdateMixin, self).success_callback()
 
-    def instantiate_form(self):
+    def instantiate_form(self, **kwargs):
         """ Overrides form instantiation so object instance can be passed
         to the form.
 
         See Also
         --------
-        * :py:meth:`flask_velox.mixins.forms.FormMixin.instantiate_form`
+        * :py:meth:`flask_velox.mixins.forms.BaseFormMixin.instantiate_form`
 
         Returns
         -------
@@ -124,4 +110,51 @@ class UpdateModelFormMixin(ModelFormMixin):
         """
 
         obj = self.get_object()
-        return self.get_form_class()(obj=obj)
+
+        return super(BaseUpdateMixin, self).instantiate_form(
+            obj=obj,
+            **kwargs)
+
+
+class CrateModelFormMixin(SingleObjectMixin, BaseCreateMixin, FormMixin):
+    """ Handles creating objects after form validation has completed and
+    was successful.
+    """
+
+    pass
+
+
+class UpdateModelFormMixin(SingleObjectMixin, BaseUpdateMixin, FormMixin):
+    """ Handels updating a single existing object after form validation has
+    completed and was successful.
+    """
+
+    pass
+
+
+class UpdateModelMultiFormMixin(
+        SingleObjectMixin,
+        BaseUpdateMixin,
+        MultiFormMixin):
+    """ Mixin for building mutli forms with a single SQAlachemy object
+
+    Example
+    -------
+
+    .. code-block:: python
+        :linenos:
+
+        from flask.ext.velox.mixins.sqla.forms import ModelFormMixin
+        from yourapp.forms import MyForm1, MyForm2
+        from yourapp.models import MyModel
+
+        class MyView(UpdateModelMultiFormMixin):
+            model = MyModel
+            forms = [
+                'Form 1': MyForm1
+                'Form 2': MyForm2
+            ]
+
+    """
+
+    pass

@@ -1,23 +1,29 @@
 # -*- coding: utf-8 -*-
 
-""" Mixin classes specific to ``Flask-Admin`` and ``Flask-SQLAlchemy``
-based views with ``Flask-WTForms``
+""" Mixin classes for forms specific to ``Flask-Admin`` and ``Flask-WTForms``
 
 Note
 ----
 The following packages must be installed.
 
-* ``Flask-SQLAlchemy``
 * ``Flask-WTForms``
 * ``Flask-Admin``
 """
 
 from flask import url_for
-from flask_velox.mixins.sqla.forms import ModelFormMixin
+from flask_velox.admin.mixins.template import AdminTemplateMixin
+from flask_velox.mixins.context import ContextMixin
+from flask_velox.mixins.forms import FormMixin, MultiFormMixin
 
 
-class AdminModelFormMixin(ModelFormMixin):
-    """
+class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
+    """ Base Admin Form Mixin.
+
+    Warning
+    -------
+    Use this mixin inconjunction with other mixins, cannot be used on its
+    own.
+
     Attributes
     ----------
     cancel_url_rule : str
@@ -25,7 +31,11 @@ class AdminModelFormMixin(ModelFormMixin):
     """
 
     def set_context(self):
-        """ Adds extra context variables, specifically:
+        """ Adds extra context variables.
+
+        Note
+        ----
+        Adds the following extra context variables:
 
         * ``cancel_url_rule``: str
         * ``cancel_url``: func
@@ -33,9 +43,10 @@ class AdminModelFormMixin(ModelFormMixin):
         See Also
         --------
         * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+
         """
 
-        super(AdminModelFormMixin, self).set_context()
+        super(AdminBaseFormMixin, self).set_context()
 
         self.merge_context({
             'cancel_url_rule': self.get_cancel_url_rule(),
@@ -124,3 +135,28 @@ class AdminModelFormMixin(ModelFormMixin):
 
         rule = self.get_delete_url_rule()
         return url_for(rule, **kwargs)
+
+    def post(self, admin, *args, **kwargs):
+        """ Hadnle HTTP POST requests. Overrides default ``post`` behaviour
+        allowing the view on POST reqeuests to be processed by ``Flask-Admin``
+
+        See Also
+        --------
+        * :py:meth:`flask_velox.views.forms.BaseModelView.post`
+
+        Returns
+        -------
+        str
+            Rendered template
+        """
+
+        self._admin = admin
+        return super(AdminBaseFormMixin, self).render()
+
+
+class AdminFormMixin(AdminBaseFormMixin, FormMixin):
+    pass
+
+
+class AdminMultiFormMixin(AdminBaseFormMixin, MultiFormMixin):
+    pass

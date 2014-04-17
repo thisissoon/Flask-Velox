@@ -26,9 +26,10 @@ Example
 """
 
 from flask import request
+from flask_velox.mixins.context import ContextMixin
 
 
-class BaseModelMixin(object):
+class BaseModelMixin(ContextMixin):
     """ Mixin provides SQLAlchemy model integration.
 
     Attributes
@@ -40,6 +41,18 @@ class BaseModelMixin(object):
     pk_field : str, optional
         The primary key field name, defaults to ``id``
     """
+
+    def set_context(self):
+        """ Overrides ``set_context`` to set extra context variables.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+        """
+
+        super(BaseModelMixin, self).set_context()
+
+        self.add_context('model', self.get_model())
 
     def get_session(self):
         """ Returns the SQLAlchemy db session instance.

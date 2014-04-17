@@ -13,40 +13,14 @@ The following packages must be installed.
 * Flask-Admin
 """
 
-from flask_velox.admin.mixins.template import AdminTemplateMixin
-from flask_velox.admin.mixins.sqla.forms import AdminModelFormMixin
+from flask_velox.admin.mixins.forms import AdminFormMixin, AdminMultiFormMixin
 from flask_velox.mixins.sqla.forms import (
     CrateModelFormMixin,
-    UpdateModelFormMixin)
-from flask_velox.views.sqla.forms import BaseModelView
+    UpdateModelFormMixin,
+    UpdateModelMultiFormMixin)
 
 
-class AdminBaseModelView(
-        AdminModelFormMixin,
-        AdminTemplateMixin,
-        BaseModelView):
-    """ Base View for Admin Create and Update views.
-    """
-
-    def post(self, admin, *args, **kwargs):
-        """ Hadnle HTTP POST requests. Overrides default ``post`` behaviour
-        allowing the view on POST reqeuests to be processed by ``Flask-Admin``
-
-        See Also
-        --------
-        * :py:meth:`flask_velox.views.forms.BaseModelView.post`
-
-        Returns
-        -------
-        str
-            Rendered template
-        """
-
-        self._admin = admin
-        return super(AdminBaseModelView, self).render()
-
-
-class AdminCreateModelView(CrateModelFormMixin, AdminBaseModelView):
+class AdminCreateModelView(CrateModelFormMixin, AdminFormMixin):
     """ Implements ``CrateModelFormMixin`` for ``Flask-Admin``.
 
     See Also
@@ -62,7 +36,7 @@ class AdminCreateModelView(CrateModelFormMixin, AdminBaseModelView):
     template = 'admin/forms/create.html'
 
 
-class AdminUpdateModelView(UpdateModelFormMixin, AdminBaseModelView):
+class AdminUpdateModelView(UpdateModelFormMixin, AdminFormMixin):
     """ Implements ``UpdateModelFormMixin`` for ``Flask-Admin``.
 
     See Also
@@ -87,6 +61,40 @@ class AdminUpdateModelView(UpdateModelFormMixin, AdminBaseModelView):
         """
 
         super(AdminUpdateModelView, self).set_context()
+
+        self.merge_context({
+            'object': self.get_object(),
+            'delete_url_rule': self.get_delete_url_rule(),
+            'delete_url': self.delete_url
+        })
+
+
+class AdminUpdateMultiFormView(UpdateModelMultiFormMixin, AdminMultiFormMixin):
+    """ Implements ``UpdateModelFormMixin`` for ``Flask-Admin`` with
+    multiple forms.
+
+    See Also
+    --------
+    * :py:class:`flask_velox.mixins.sqla.forms.UpdateModelFormMixin`
+
+    Attributes
+    ----------
+    template : str
+        Relative template path, defaults to ``admin/forms/update.html``
+    """
+
+    template = 'admin/forms/edit_multi_forms.html'
+
+    def set_context(self):
+        """ Set extra context variables specific to ``Flask-Admin`` update
+        views.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+        """
+
+        super(AdminUpdateMultiFormView, self).set_context()
 
         self.merge_context({
             'object': self.get_object(),
