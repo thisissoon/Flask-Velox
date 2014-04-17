@@ -9,7 +9,7 @@ Flask SQLAlchemy must be installed
 """
 
 from flask_velox.mixins.context import ContextMixin
-from flask_velox.mixins.sqla.model import ListModelMixin, TableModelMixin
+from flask_velox.mixins.sqla.read import ListModelMixin, TableModelMixin
 from flask_velox.mixins.template import TemplateMixin
 
 

@@ -10,7 +10,7 @@ Note
 """
 
 from flask import url_for
-from flask_velox.mixins.sqla.model import TableModelMixin
+from flask_velox.mixins.sqla.read import TableModelMixin
 
 
 class AdminTableModelMixin(TableModelMixin):

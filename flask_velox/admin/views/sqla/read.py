@@ -12,7 +12,7 @@ Flask-Admin must be installed
 
 from flask_velox.admin.mixins.sqla.model import AdminTableModelMixin
 from flask_velox.admin.mixins.template import AdminTemplateMixin
-from flask_velox.views.sqla.model import ModelListView, TableModelView
+from flask_velox.views.sqla.read import ModelListView, TableModelView
 
 
 class AdminModelListView(AdminTemplateMixin, ModelListView):
