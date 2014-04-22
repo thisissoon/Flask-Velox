@@ -5,7 +5,9 @@ Module provides classes for rendering views for SQLAlchemy based models.
 
 Note
 ----
-Flask SQLAlchemy must be installed
+The following packages must be installed:
+
+* ``Flask SQLAlchemy``
 """
 
 from flask_velox.mixins.context import ContextMixin
