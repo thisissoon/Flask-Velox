@@ -10,7 +10,7 @@ from werkzeug.utils import redirect
 
 
 class RedirectMixin(View):
-    """ Raise a HTTP Redirect, by default a 302 HTTP Staus Code will be used
+    """ Raise a HTTP Redirect, by default a 302 HTTP Status Code will be used
     however this can be overridden using the ``code`` attribute.
 
     Example
@@ -34,8 +34,16 @@ class RedirectMixin(View):
 
     code = 302
 
+    def pre_dispatch(self, *args, **kwargs):
+        """ If you wish to run an arbitrary piece of code before the
+        redirect is dispatched you can override this method which is
+        called before dispatch.
+        """
+
+        pass
+
     def get_url(self):
-        """ Retrun generated url from ``rule`` attrubute.
+        """ Return a generated url from ``rule`` attribute.
 
         Returns
         -------
@@ -59,4 +67,5 @@ class RedirectMixin(View):
             Redirect response
         """
 
+        self.pre_dispatch()
         return redirect(self.get_url(), code=getattr(self, 'code', 302))
