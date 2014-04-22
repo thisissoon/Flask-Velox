@@ -15,17 +15,17 @@ The following packages must be installed.
 
 from flask_velox.admin.mixins.forms import AdminFormMixin, AdminMultiFormMixin
 from flask_velox.mixins.sqla.forms import (
-    CrateModelFormMixin,
+    CreateModelFormMixin,
     UpdateModelFormMixin,
     UpdateModelMultiFormMixin)
 
 
-class AdminCreateModelView(CrateModelFormMixin, AdminFormMixin):
-    """ Implements ``CrateModelFormMixin`` for ``Flask-Admin``.
+class AdminCreateModelView(CreateModelFormMixin, AdminFormMixin):
+    """ Implements ``CreateModelFormMixin`` for ``Flask-Admin``.
 
     See Also
     --------
-    * :py:class:`flask_velox.mixins.sqla.forms.CrateModelFormMixin`
+    * :py:class:`flask_velox.mixins.sqla.forms.CreateModelFormMixin`
 
     Attributes
     ----------

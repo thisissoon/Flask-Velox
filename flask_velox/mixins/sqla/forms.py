@@ -116,7 +116,7 @@ class BaseUpdateMixin(object):
             **kwargs)
 
 
-class CrateModelFormMixin(SingleObjectMixin, BaseCreateMixin, FormMixin):
+class CreateModelFormMixin(SingleObjectMixin, BaseCreateMixin, FormMixin):
     """ Handles creating objects after form validation has completed and
     was successful.
     """
