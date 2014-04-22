@@ -7,7 +7,7 @@ Note
 ----
 The following packages must be installed:
 
-* Flask-WTForms
+* Flask-WTF
 * Flask-SQLAlchemy
 """
 

@@ -5,7 +5,7 @@ interface.
 
 Note
 ----
-The following packages must be installed.
+The following packages must be installed:
 
 * Flask-SQLAlchemy
 * Flask-Admin

@@ -5,7 +5,9 @@ Module provides mixin classes for dealing with SQLALchemy models
 
 Note
 ----
-Flask SQLAlchemy must be installed
+The following packages must be installed:
+
+* ``Flask SQLAlchemy``
 
 Example
 -------

@@ -8,16 +8,16 @@ Note
 Requires the following packages are installed:
 
 * Flask-SQLAlchemy
-* Flask-WTForms
+* Flask-WTF
 """
 
 from flask_velox.mixins.sqla.forms import (
-    CrateModelFormMixin,
+    CreateModelFormMixin,
     UpdateModelFormMixin,
     UpdateModelMultiFormMixin)
 
 
-class CreateModelView(CrateModelFormMixin):
+class CreateModelView(CreateModelFormMixin):
     """ View for creating new model objects.
 
     Example

@@ -6,8 +6,10 @@ Module provides classes for rendering views for SQLAlchemy based models within
 
 Note
 ----
-Flask-SQLAlchemy must be installed
-Flask-Admin must be installed
+The following packages must be installed:
+
+* ``Flask-SQLAlchemy``
+* ``Flask-Admin``
 """
 
 from flask_velox.admin.mixins.sqla.model import AdminTableModelMixin

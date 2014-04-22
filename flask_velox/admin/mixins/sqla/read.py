@@ -5,8 +5,10 @@ based views.
 
 Note
 ----
-``Flask-Admin`` Must be installed
-``Flask-SQLAlchemy`` Must be installed
+The following packages must be installed:
+
+* ``Flask-Admin``
+* ``Flask-SQLAlchemy``
 """
 
 from flask import url_for

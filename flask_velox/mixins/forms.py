@@ -6,7 +6,7 @@ Note
 ----
 The following packages must be installed:
 
-* Flask-WTForms
+* Flask-WTF
 """
 
 from collections import OrderedDict
