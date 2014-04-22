@@ -1,0 +1,15 @@
+{% extends 'admin/master.html' %}
+{% import 'velox/lib/forms.html' as lib with context %}
+
+{% block body %}
+    {{ super() }}
+    <h2>{% block h2 %}Create {{ model.__name__ }}{% endblock %}</h2>
+    {% block instructions %}<p>Input your data into the form fields below, once you are done click <b>Save</b> button. Alternatively click the <b>Cancel</b> buttion to exit.</p>{% endblock %}
+    {% call lib.form(form=form, action=submit_url()) %}
+        {{ lib.form_fields(form) }}
+        {% call lib.form_controls() %}
+            {{ lib.save_button() }}
+            {{ lib.cancel_button(cancel_url()) }}
+        {% endcall %}
+    {% endcall %}
+{% endblock %}

@@ -33,7 +33,7 @@ class AdminCreateModelView(CreateModelFormMixin, AdminFormMixin):
         Relative template path, defaults to ``admin/forms/create.html``
     """
 
-    template = 'admin/forms/create.html'
+    template = 'velox/admin/create.html'
 
 
 class AdminUpdateModelView(UpdateModelFormMixin, AdminFormMixin):
@@ -49,7 +49,7 @@ class AdminUpdateModelView(UpdateModelFormMixin, AdminFormMixin):
         Relative template path, defaults to ``admin/forms/update.html``
     """
 
-    template = 'admin/forms/update.html'
+    template = 'velox/admin/update.html'
 
     def set_context(self):
         """ Set extra context variables specific to ``Flask-Admin`` update
@@ -83,7 +83,7 @@ class AdminUpdateMultiFormView(UpdateModelMultiFormMixin, AdminMultiFormMixin):
         Relative template path, defaults to ``admin/forms/update.html``
     """
 
-    template = 'admin/forms/edit_multi_forms.html'
+    template = 'velox/admin/update_multi_form.html'
 
     def set_context(self):
         """ Set extra context variables specific to ``Flask-Admin`` update

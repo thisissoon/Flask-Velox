@@ -1,0 +1,20 @@
+{% extends 'admin/master.html' %}
+{% import 'velox/lib/forms.html' as forms with context %}
+
+{% block body %}
+    {{ super() }}
+    <h2>{% block h2 %}Edit {{ model.__name__ }}{% endblock %}</h2>
+    {% block instructions %}
+    <p>Make your changes and then click the <span class="label label-info">Save</span> button at the bottom of the form. Alternatively you can exit by clicking <span class="label">Cancel</span>{% if delete_url %} or delete this record by clicking the <span class="label label-important">Delete</span> button{% endif %}.</p>
+    {% endblock %}
+    {% call forms.form(form=form, action=submit_url(id=object.id)) %}
+        {{ forms.form_fields(form) }}
+        {% call forms.form_controls() %}
+            {{ forms.save_button() }}
+            {% if delete_url_rule %}
+                {{ forms.delete_button(delete_url(id=object.id)) }}
+            {% endif %}
+            {{ forms.cancel_button(cancel_url()) }}
+        {% endcall %}
+    {% endcall %}
+{% endblock %}

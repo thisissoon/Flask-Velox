@@ -10,7 +10,7 @@ The following packages must be installed:
 """
 
 from flask import request
-from flask_velox.mixins.sqla.model import BaseModelMixin
+from flask_velox.mixins.sqla.read import BaseModelMixin
 
 
 class SingleObjectMixin(BaseModelMixin):

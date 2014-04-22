@@ -1,0 +1,79 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{{ super() }}
+<h2>List</h2>
+<form action="#" method="post" enctype="multipart/form-data" id="list-form">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#">Objects</a>
+        </li>
+        {% if create_url %}
+        <li>
+            <a href="{{ create_url }}"><i class="icon-plus-sign"></i> Create</a>
+        </li>
+        {% endif %}
+        {% if with_selected %}
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">With selected <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                {% for name, action in with_selected.iteritems() %}
+                <li><a href="{{ action }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+    </ul>
+    <table class="table table-bordered table-hover table-striped table-condensed">
+        <thead>
+            <tr>
+                <th width="0%"><i class="icon-chevron-down"></i></th>
+                {% for column in columns %}
+                <td width="{{ 100 / columns|length }}%">{{ column_name(column) }}</td>
+                {% endfor %}
+                {% if update_url %}
+                <th width="0%"><i class="icon-edit"></i></th>
+                {% endif %}
+                {% if delete_url %}
+                <th width="0%"><i class="icon-trash"></i></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+            <tr>
+                <td>
+                    <label class="checkbox">
+                        <input id="objects" name="objects" type="checkbox" value="{{ object.id }}">
+                    </label>
+                </td>
+                {% for column in columns %}
+                <td>{{ format_value(column, object) }}</td>
+                {% endfor %}
+                {% if update_url_rule %}
+                <td width="0%"><a href="{{ update_url(id=object.id) }}"><i class="icon-edit"></i></a></td>
+                {% endif %}
+                {% if delete_url_rule %}
+                <td width="0%"><a href="{{ delete_url(id=object.id) }}"><i class="icon-trash"></i></a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% endblock %}
+
+{% block tail_js %}
+{{ super() }}
+<script type="text/javascript">
+$(document).ready(function() {
+    var form = $('#list-form');
+    form.find('.dropdown-menu a').bind('click', function(e) {
+        e.preventDefault();
+        var action = $(this).attr('href');
+        form.attr('action', action);
+        form.submit();
+    });
+});
+</script>
+{% endblock %}

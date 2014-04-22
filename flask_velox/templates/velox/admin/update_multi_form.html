@@ -1,0 +1,22 @@
+{% extends 'admin/master.html' %}
+{% import 'velox/lib/forms.html' as lib with context %}
+
+{% block body %}
+<h2>{% block h2 %}Edit {{ model.__name__ }}{% endblock %}</h2>
+{% block instructions %}
+<p>There are <span class="badge badge-info">{{ forms|length }}</span> forms on this page for editing <b>{{ obj }}</b>. Each form has its own <span class="label label-info">Save</span> clicking that button will only submit that forms data. Alternatively you can click the <span class="label">Cancel</span> button to exit{% if delete_url %} or delete this record by clicking the <span class="label label-important">Delete</span> button{% endif %}.</p>
+{% endblock %}
+{% for prefix, values in forms.iteritems() %}
+    {% set name, form = values %}
+    {% call lib.form(form=form, action=submit_url(id=object.id), legend=name, prefix=prefix) %}
+        {{ lib.form_fields(form) }}
+        {% call lib.form_controls() %}
+            {{ lib.save_button() }}
+            {% if delete_url %}
+                {{ lib.delete_button(delete_url) }}
+            {% endif %}
+            {{ lib.cancel_button(cancel_url) }}
+        {% endcall %}
+    {% endcall %}
+{% endfor %}
+{% endblock %}

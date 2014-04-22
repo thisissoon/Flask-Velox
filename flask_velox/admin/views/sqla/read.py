@@ -35,7 +35,7 @@ class AdminModelTableView(
     * :py:class:`flask_velox.admin.mixins.sqla.model.AdminTableModelMixin`
     """
 
-    template = 'admin/forms/table.html'
+    template = 'velox/admin/table.html'
 
     def set_context(self):
         """ Adds extra context to Admin Table Views for ``Flask-Admin``
