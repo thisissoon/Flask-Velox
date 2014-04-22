@@ -16,4 +16,7 @@ from flask_velox.mixins.forms import FormMixin
 
 
 class AdminFormView(FormMixin, AdminTemplateMixin):
+    """ Renders a normal form within a ``Flask-Admin`` view.
+    """
+
     pass

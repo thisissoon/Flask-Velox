@@ -20,5 +20,6 @@ Modules
 
     mixins/context
     mixins/forms
+    mixins/http
     mixins/template
     mixins/sqla
