@@ -58,7 +58,7 @@ class RedirectMixin(View):
 
         return url_for(rule)
 
-    def dispatch_request(self):
+    def dispatch_request(self, *args, **kwargs):
         """ Dispatch the request, returning the redirect.func_closure
 
         Returns
