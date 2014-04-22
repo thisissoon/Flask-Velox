@@ -1,10 +1,22 @@
-Admin
-=====
+.. _flask_velox.admin:
 
-The admin views provide the ability to integrate with ``Flask-Admin``.
+flask_velox.admin
+=================
+
+This module provides `Flas-Admin
+<https://flask-admin.readthedocs.org/en/latest/>`_ integration with
+``Flask-Velox``.
+
+.. seealso::
+
+    * :ref:`flask_velox.mixins`
+    * :ref:`flask_velox.views`
+
+Modules
+-------
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 1
 
     admin/mixins
     admin/views

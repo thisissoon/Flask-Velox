@@ -1,21 +1,21 @@
-Views
-=====
+.. _flask_velox.views:
 
-Use these views as a drop in replacement for Flask ``MethodView``. These
-Views provide basic generic functionality for building standard Views.
+flask_velox.views
+=================
 
-flask_velox.views.sqla.model
-----------------------------
+Views simply impliment mixins provided in :ref:`flask_velox.mixins`.
+These views provide the basics to enable you to build simple pages such as
+lists, templates and form rendering / validation.
 
-.. automodule:: flask_velox.views.sqla.model
-    :members:
-    :private-members:
-    :show-inheritance:
+.. seealso::
 
-flask_velox.views.template
---------------------------
+    * :ref:`flask_velox.mixins`
 
-.. automodule:: flask_velox.views.template
-    :members:
-    :private-members:
-    :show-inheritance:
+Modules
+-------
+
+.. toctree::
+    :maxdepth: 1
+
+    views/template
+    views/sqla

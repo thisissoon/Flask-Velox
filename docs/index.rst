@@ -1,16 +1,13 @@
 Flask-Velox Documentation
 =========================
 
-
 Topics
 ------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    api
-
-
 
 Indices and tables
 ==================

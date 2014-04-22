@@ -1,20 +1,20 @@
+.. _flask_velox.admin.views:
+
 flask_velox.admin.views
 =======================
 
-Views for ``Flask-Admin`` based systems.
+Extends the default views to work with ``Flask-Admin``.
 
-flask_velox.admin.views.sql.model
-----------------------------------
+.. seealso::
 
-.. automodule:: flask_velox.admin.views.sqla.model
-    :members:
-    :private-members:
-    :show-inheritance:
+    * :ref:`flask_velox.views`
 
-flask_velox.admin.views.template
----------------------------------
+Modules
+-------
 
-.. automodule:: flask_velox.admin.views.template
-    :members:
-    :private-members:
-    :show-inheritance:
+.. toctree::
+    :maxdepth: 1
+
+    views/forms
+    views/template
+    views/sqla

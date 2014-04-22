@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-""" Custom fields for WTForms based forms.
+""" Fields to help with common functionality, for example Upload fields with
+``WTForms``.
 
 Note
 ----
 The following packages must be installed:
 
-* Flask-WTForms
+* Flask-WTF
 """
 
 import calendar
@@ -33,14 +34,17 @@ class UploadFileField(FileField):
     Example
     -------
 
-    from flask.ext.velox.fields import UploadFileField
-    from flask_wtf import Form
-    from flask_wtf.file import FileAllowed, FileRequired
+    .. code-block:: python
+        :linenos:
 
-    class MyForm(Form):
-        name = UploadFileField('name', validators=[
-            FileRequired(),
-            FileAllowed(['pdf', ], 'PDF Only')])
+        from flask.ext.velox.fields import UploadFileField
+        from flask_wtf import Form
+        from flask_wtf.file import FileAllowed, FileRequired
+
+        class MyForm(Form):
+            name = UploadFileField('name', validators=[
+                FileRequired(),
+                FileAllowed(['pdf', ], 'PDF Only')])
     """
 
     # Deleting orphans relates to updating a record with a new file, the

@@ -1,53 +1,24 @@
-Mixins
-======
+.. _flask_velox.mixins:
 
-Use these mixin classes to extend the functionality of basic `MethodView` based
-views.
+flask_velox.mixins
+==================
 
-flask_velox.mixins.context
---------------------------
+This module provides mixin classes to help extend views to add additional
+functionality. Mixins in ``Flask-Velox`` have all the power,
+:ref:`flask_velox.views` simply implement mixin classes to provide the
+desired functionality for the view.
 
-.. automodule:: flask_velox.mixins.context
-    :members:
-    :private-members:
-    :show-inheritance:
+.. seealso::
 
-flask_velox.mixins.forms
-------------------------
+    * :ref:`flask_velox.views`
 
-.. automodule:: flask_velox.mixins.forms
-    :members:
-    :private-members:
-    :show-inheritance:
+Modules
+-------
 
-flask_velox.mixins.sqla.forms
------------------------------
+.. toctree::
+    :maxdepth: 1
 
-.. automodule:: flask_velox.mixins.sqla.forms
-    :members:
-    :private-members:
-    :show-inheritance:
-
-flask_velox.mixins.sqla.model
------------------------------
-
-.. automodule:: flask_velox.mixins.sqla.model
-    :members:
-    :private-members:
-    :show-inheritance:
-
-flask_velox.mixins.sqla.object
-------------------------------
-
-.. automodule:: flask_velox.mixins.sqla.object
-    :members:
-    :private-members:
-    :show-inheritance:
-
-flask_velox.mixins.template
----------------------------
-
-.. automodule:: flask_velox.mixins.template
-    :members:
-    :private-members:
-    :show-inheritance:
+    mixins/context
+    mixins/forms
+    mixins/template
+    mixins/sqla

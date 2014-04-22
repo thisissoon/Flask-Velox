@@ -1,20 +1,20 @@
+.. _flask_velox.admin.mixins:
+
 flask_velox.admin.mixins
 ========================
 
-Mixins for ``Flask-Admin`` based systems.
+Extends the default mixins to work with ``Flask-Admin``.
 
-flask_velox.admin.mixins.sql.model
-----------------------------------
+.. seealso::
 
-.. automodule:: flask_velox.admin.mixins.sqla.model
-    :members:
-    :private-members:
-    :show-inheritance:
+    * :ref:`flask_velox.mixins`
 
-flask_velox.admin.mixins.template
----------------------------------
+Modules
+-------
 
-.. automodule:: flask_velox.admin.mixins.template
-    :members:
-    :private-members:
-    :show-inheritance:
+.. toctree::
+    :maxdepth: 1
+
+    mixins/forms
+    mixins/template
+    mixins/sqla

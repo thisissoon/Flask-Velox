@@ -56,7 +56,7 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
         will only return ``True`` if the ``confirmed`` query string is
         present.
 
-        Retruns
+        Returns
         -------
         bool
             Ok to delete the object or not
