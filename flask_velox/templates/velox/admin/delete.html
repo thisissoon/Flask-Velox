@@ -1,0 +1,9 @@
+{% extends 'admin/master.html' %}
+{% import 'velox/lib/delete.html' as delete with context %}
+
+{% set url=url_for(request.url_rule.endpoint, id=object.id, confirm=True) %}
+
+{% block body %}
+    {{ super() }}
+    {{ delete.confirm(object, url) }}
+{% endblock %}

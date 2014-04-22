@@ -1,16 +1,28 @@
 Flask-Velox Documentation
 =========================
 
-The idea behind ``Flask-Velox`` is to provide ready made View and Mixin classes
-to help reapidly build Flask applications for both public and admin systems.
+``Flask-Velox`` is a Flask extenstion designed to provide ready made View and
+Mixin  classes to help reapidly build Flask applications for both public and
+admin systems, based on Flasks pluggable ``MethodView``.
 
-Here at `SOON_`_ we use Flask a lot and we wanted a
-framework we could use across all our products to clients. As our products and
-requirments grow so will ``Flask-Velox``. It is early days but the absolute
+Here at `SOON_`_ we use Flask a lot and we wanted a framework we could use
+across all our products. As our products and requirments grow so
+will ``Flask-Velox``. It is early days but the absolute
 basics are there and we would love feedback and help to grow this further.
 
-Topics
-------
+Guide
+-----
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   quickstart
+   sqlalchemhy
+   admin
+
+API Reference
+-------------
 
 .. toctree::
    :maxdepth: 2

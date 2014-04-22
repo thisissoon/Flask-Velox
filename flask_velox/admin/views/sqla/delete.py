@@ -27,7 +27,7 @@ class AdminDeleteObjectView(DeleteObjectView, AdminTemplateMixin):
         Template to render, defaults to ``admin/forms/delete.html``
     """
 
-    template = 'admin/forms/delete.html'
+    template = 'velox/admin/delete.html'
 
 
 class AdminMultiDeleteObjectView(MultiDeleteObjectView, AdminTemplateMixin):
@@ -40,7 +40,7 @@ class AdminMultiDeleteObjectView(MultiDeleteObjectView, AdminTemplateMixin):
         Template to render, defaults to ``admin/forms/delete.html``
     """
 
-    template = 'admin/forms/multi-delete.html'
+    template = 'velox/admin/delete_multiple.html'
 
     def post(self, admin, *args, **kwargs):
 
