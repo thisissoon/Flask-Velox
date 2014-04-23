@@ -18,6 +18,7 @@ Guide
 
    installation
    quickstart
+   forms
    sqlalchemhy
    admin
 

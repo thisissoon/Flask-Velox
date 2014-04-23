@@ -17,6 +17,7 @@ Modules
 .. toctree::
     :maxdepth: 1
 
+    views/forms
     views/http
     views/template
     views/sqla
