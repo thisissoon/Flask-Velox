@@ -198,7 +198,7 @@ class ContextMixin(object):
         Example
         -------
         >>> class FooView(ContextMixin):
-        ...     default_context = {
+        ...     context = {
         ...         'foo': 'bar',
         ...     }
         ...
