@@ -155,7 +155,7 @@ class ListModelMixin(BaseModelMixin):
         A SQLAlchemy base query object, if defined this will be used instead
         of ``self.model.query.all()``
     paginate : bool, optional
-        Paginate the records using SQLAlchemy ``query.paginate``
+        Paginate the records using SQLAlchemy ``query.paginate``, defaults True
     per_page : int, optional
         If ``paginate`` is ``True`` customise the number of records to show
         per page, defaults to ``30``
@@ -217,7 +217,7 @@ class ListModelMixin(BaseModelMixin):
 
         query = self.get_basequery()
 
-        if getattr(self, 'paginate', False):
+        if getattr(self, 'paginate', True):
             page = self.get_page()
             pagination = query.paginate(page, per_page=self.get_per_page())
 

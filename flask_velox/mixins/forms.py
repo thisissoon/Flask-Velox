@@ -164,7 +164,7 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
             Redirects request to somewhere else
         """
 
-        raise RequestRedirect(self.get_redirect_url_rule())
+        raise RequestRedirect(self.redirect_url())
 
     def post(self, *args, **kwargs):
         """ Handle HTTP POST requets using Flask ``MethodView`` rendering a
