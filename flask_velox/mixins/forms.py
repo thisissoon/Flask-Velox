@@ -22,10 +22,10 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
 
     Attributes
     ----------
+    redirect_url_rule : str
+        Raw Flask url rule, e.g: ``some.url.rule``
     submit_url_rule : str, optional
         Flask url rule for form submit action e.g: 'some.url.rule'
-    redirect_url_rule : str, optional
-        Raw Flask url rule, e.g: ``some.url.rule``, defualts to ``.index``
     """
 
     def set_context(self):
@@ -69,17 +69,25 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
         return getattr(self, 'submit_url_rule', request.url_rule.endpoint)
 
     def get_redirect_url_rule(self):
-        """ Returns raw redirect url rule to be used in ``url_for``. If the
-        ``redirect_url_rule`` is not defined then ``.index``  will be
-        returned.
+        """ Returns raw redirect url rule to be used in ``url_for``. The
+        ``redirect_url_rule`` must be defined else NotImplementedError will
+        be raised.
 
         Returns
         -------
         str
             Raw flask url endpoint
+
+        Raises
+        ------
+        NotImplementedError
+            If ``redirect_url_rule`` is not defined
         """
 
-        return getattr(self, 'redirect_url_rule', '.index')
+        try:
+            return self.forms
+        except AttributeError:
+            raise NotImplementedError('``redirect_url_rule`` must be defined.')
 
     def submit_url(self, **kwargs):
         """ Returns the url to a submit endpoint, this is used to render a link

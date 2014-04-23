@@ -53,6 +53,19 @@ class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
             'cancel_url': self.cancel_url
         })
 
+    def get_redirect_url_rule(self):
+        """ Returns raw redirect url rule to be used in ``url_for``. If the
+        ``redirect_url_rule`` is not defined then ``.index``  will be
+        returned.
+
+        Returns
+        -------
+        str
+            Raw flask url endpoint
+        """
+
+        return getattr(self, 'redirect_url_rule', '.index')
+
     def get_cancel_url_rule(self):
         """ Returns the ``cancel_url_rule`` or raises NotImplementedError if
         not defined.
