@@ -20,7 +20,6 @@ Guide
    quickstart
    forms
    sqlalchemhy
-   admin
 
 API Reference
 -------------
