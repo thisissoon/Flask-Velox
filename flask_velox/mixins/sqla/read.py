@@ -161,6 +161,33 @@ class ListModelMixin(BaseModelMixin):
         per page, defaults to ``30``
     """
 
+    def set_context(self):
+        """ Adds extra context to SQLAlchemy based list views.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+
+        Note
+        ----
+        Adds the following context variables.
+
+        * ``objects``: List of model objects
+        * ``pagination``: Pagination object or ``None``
+
+        Returns
+        -------
+        str
+            Rendered template
+        """
+
+        super(ListModelMixin, self).set_context()
+
+        objects, pagination = self.get_objects()
+
+        self.add_context('objects', objects)
+        self.add_context('pagination', pagination)
+
     def get_basequery(self):
         """ Returns SQLAlchemy base query object instance, if ``base_query`` is
         declared this will be used as the base query, else
@@ -257,6 +284,33 @@ class TableModelMixin(ListModelMixin):
             }
 
     """
+
+    def set_context(self):
+        """ Adds extra context to SQLAlchemy table based list views.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+
+        Note
+        ----
+        Adds the following context variables.
+
+        * ``columns``: List of columns
+        * ``column_name``: ``column_name`` function
+        * ``format_value``: ``format_value`` function
+
+        Returns
+        -------
+        str
+            Rendered template
+        """
+
+        super(TableModelMixin, self).set_context()
+
+        self.add_context('columns', self.get_columns())
+        self.add_context('column_name', self.column_name)
+        self.add_context('format_value', self.format_value)
 
     def get_columns(self):
         """ Returns the list of columns defined for the View using this Mixin.
