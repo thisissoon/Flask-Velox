@@ -16,7 +16,7 @@ Example
     app = Flask(__name__)
 
     class MyView(TemplateMixin, ContextMixin):
-        default_context = {
+        context = {
             'foo': 'bar'
         }
 
@@ -44,7 +44,7 @@ class ContextMixin(object):
         :linenos:
 
         class FooView(ContextMixin):
-            default_context = {
+            context = {
                 'foo': 'bar',
             }
 
@@ -54,15 +54,15 @@ class ContextMixin(object):
         """ Constructor
 
         Performs initial setup defining `_context` and merging
-        `default_context`.
+        `context`.
         """
 
         #: Holds the context value for the instance
         self._context = {}
 
         # Merge default context into context if exists
-        default_context = getattr(self, 'default_context', {})
-        self.merge_context(default_context)
+        context = getattr(self, 'context', {})
+        self.merge_context(context)
 
         # Call a callback method so class extending this can
         # have a method override just for context rather than
@@ -70,8 +70,7 @@ class ContextMixin(object):
         if hasattr(self, 'set_context'):
             self.merge_context(self.set_context())
 
-    @property
-    def context(self):
+    def get_context(self):
         """ Propety method which returns the current context.
 
         Returns
@@ -95,7 +94,7 @@ class ContextMixin(object):
         Example
         -------
         >>> class FooView(ContextMixin):
-        ...     default_context = {
+        ...     context = {
         ...         'foo': 'bar',
         ...     }
         ...
@@ -133,7 +132,7 @@ class ContextMixin(object):
         Example
         -------
         >>> class FooView(ContextMixin):
-        ...     default_context = {
+        ...     context = {
         ...         'foo': 'bar',
         ...     }
         ...
@@ -152,7 +151,8 @@ class ContextMixin(object):
 
         """
 
-        context = self._context
+        context = self.get_context()
+
         if subject:
             context = dict(context.items() + subject.items())
             self._context = context
@@ -180,14 +180,16 @@ class ContextMixin(object):
 
         Returns
         -------
-        bool
-            Success or Failure
+        dict
+            The new context
         """
 
-        context = self.context
+        context = self.get_context()
         context[key] = val
 
-        return True
+        self._context = context
+
+        return context
 
     def del_context(self, key):
         """
@@ -215,9 +217,14 @@ class ContextMixin(object):
         -------
         bool
             Success or Failure
+
+        Returns
+        -------
+        dict
+            The new context
         """
 
-        context = self.context
+        context = self.get_context()
 
         try:
             context.pop(key, None)
@@ -225,4 +232,4 @@ class ContextMixin(object):
         except KeyError:
             return False
 
-        return True
+        return context

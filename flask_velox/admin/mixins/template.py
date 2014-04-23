@@ -46,9 +46,13 @@ class AdminTemplateMixin(TemplateMixin):
 
         admin = self.get_admin()
 
+        # See if we have a get_context method, if not return a blank
+        # context dict
+        get_context = getattr(self, 'get_context', lambda: {})
+
         return admin.render(
             self._template,
-            **getattr(self, 'context', {}))
+            **get_context())
 
     def get(self, admin, *args, **kwargs):
         """ Handles HTTP GET requests to View. Also sets ``self._admin``

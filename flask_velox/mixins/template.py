@@ -82,9 +82,13 @@ class TemplateMixin(MethodView):
 
         """
 
+        # See if we have a get_context method, if not return a blank
+        # context dict
+        get_context = getattr(self, 'get_context', lambda: {})
+
         return render_template(
             self._template,
-            **getattr(self, 'context', {}))
+            **get_context())
 
     def get(self, *args, **kwargs):
         """ Handle HTTP GET requets using Flask ``MethodView`` rendering a
