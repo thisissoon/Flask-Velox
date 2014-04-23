@@ -16,6 +16,14 @@ class FormView(FormMixin):
     """ Class implements :py:class:`flask_velox.mixins.forms.FormMixin`
     allowing rendering of ``Flask-WTF`` forms.
 
+    Note
+    ----
+    Context pased to template:
+
+    * ``form``: The instantiated form class
+    * ``submit_url_rule``: Raw flask url rule
+    * ``submit_url``: Function to call to generate the submit url for the form
+
     Example
     -------
 
@@ -35,6 +43,14 @@ class FormView(FormMixin):
 class MultiFormView(MultiFormMixin):
     """ Class implements :py:class:`flask_velox.mixins.forms.MultiFormMixin`
     allowing rendering of multiple ``Flask-WTF`` forms.
+
+    Note
+    ----
+    Context pased to template:
+
+    * ``forms``: The instantiated form classes
+    * ``submit_url_rule``: Raw flask url rule
+    * ``submit_url``: Function to call to generate the submit url for the form
 
     Example
     -------

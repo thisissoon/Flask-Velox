@@ -100,8 +100,6 @@ class ContextMixin(object):
         ...
         >>> view = FooView()
         >>> view.update_context({'hello': 'world'})
-        True
-        >>> view.context
         {
             'hello': 'world'
         }
@@ -138,7 +136,7 @@ class ContextMixin(object):
         ...
         >>> view = FooView()
         >>> view.merge_context({'hello': 'world'})
-        >>> view.context
+        >>> view.get_context()
         {
             'hello': 'world',
             'foo': 'bar'
@@ -204,8 +202,6 @@ class ContextMixin(object):
         ...
         >>> view = FooView()
         >>> view.del_context('foo')
-        True
-        >>> view.context
         {}
 
         Arguments
