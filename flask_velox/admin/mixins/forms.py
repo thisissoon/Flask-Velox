@@ -26,8 +26,8 @@ class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
 
     Attributes
     ----------
-    cancel_url_rule : str
-        Flask url rule for cancel link
+    cancel_url_rule : str, optional
+        Flask url rule for cancel link, defaults to ``.index``
     """
 
     def set_context(self):
@@ -61,17 +61,9 @@ class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
         -------
         str
             Defined ``cancel_url_rule``
-
-        Raises
-        ------
-        NotImplementedError
-            If ``cancel_url_rule`` is not defined
         """
 
-        try:
-            return self.cancel_url_rule
-        except AttributeError:
-            raise NotImplementedError('``cancel_url_rule`` must be defined')
+        return getattr(self, 'cancel_url_rule', '.index')
 
     def cancel_url(self, **kwargs):
         """ Returns the url to a cancel endpoint, this is used to render a link
@@ -108,7 +100,7 @@ class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
             Defined ``delete_url_rule``
         """
 
-        return getattr(self, 'delete_url_rule', None)
+        return getattr(self, 'delete_url_rule', '.delete')
 
     def delete_url(self, **kwargs):
         """ Returns the url to a delete endpoint, this is used to render a link
@@ -155,8 +147,16 @@ class AdminBaseFormMixin(ContextMixin, AdminTemplateMixin):
 
 
 class AdminFormMixin(AdminBaseFormMixin, FormMixin):
+    """ Admin form mixin class provides the ability to render forms within
+    the ``Flask-Admin`` System for an SQLAlchemy model.
+    """
+
     pass
 
 
 class AdminMultiFormMixin(AdminBaseFormMixin, MultiFormMixin):
+    """ Admin form mixin class provides the ability to render multiple forms
+    within the ``Flask-Admin`` System for an SQLAlchemy model.
+    """
+
     pass

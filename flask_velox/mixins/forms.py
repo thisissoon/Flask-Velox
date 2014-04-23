@@ -24,8 +24,8 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
     ----------
     submit_url_rule : str, optional
         Flask url rule for form submit action e.g: 'some.url.rule'
-    redirect_url_rule : str
-        Raw Flask url rule, e.g: 'some.url.rule'
+    redirect_url_rule : str, optional
+        Raw Flask url rule, e.g: ``some.url.rule``, defualts to ``.index``
     """
 
     def set_context(self):
@@ -68,6 +68,19 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
 
         return getattr(self, 'submit_url_rule', request.url_rule.endpoint)
 
+    def get_redirect_url_rule(self):
+        """ Returns raw redirect url rule to be used in ``url_for``. If the
+        ``redirect_url_rule`` is not defined then ``.index``  will be
+        returned.
+
+        Returns
+        -------
+        str
+            Raw flask url endpoint
+        """
+
+        return getattr(self, 'redirect_url_rule', '.index')
+
     def submit_url(self, **kwargs):
         """ Returns the url to a submit endpoint, this is used to render a link
         in forms actions::
@@ -92,6 +105,28 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
         """
 
         rule = self.get_submit_url_rule()
+        return url_for(rule, **kwargs)
+
+    def redirect_url(self, **kwargs):
+        """ Returns the url to a redirect endpoint, when the form is valid
+        and the callback is called.
+
+        See Also
+        --------
+        * :py:meth:`get_redirect_url_rule`
+
+        Arguments
+        ---------
+        \*\*kwargs
+            Arbitrary keyword arguments passed to ``Flask.url_for``
+
+        Returns
+        -------
+        str or None
+            Generated url
+        """
+
+        rule = self.get_redirect_url_rule()
         return url_for(rule, **kwargs)
 
     def instantiate_form(self, kls=None, obj=None, prefix=''):
@@ -127,19 +162,9 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
         -------
         werkzeug.wrappers.Response
             Redirects request to somewhere else
-
-        Raises
-        ------
-        NotImplementedError
-            If ``redirect_url_rule`` is not defined
         """
 
-        try:
-            rule = self.redirect_url_rule
-        except AttributeError:
-            raise NotImplementedError('``redirect_url_rule`` required.')
-
-        raise RequestRedirect(url_for(rule))
+        raise RequestRedirect(self.get_redirect_url_rule())
 
     def post(self, *args, **kwargs):
         """ Handle HTTP POST requets using Flask ``MethodView`` rendering a

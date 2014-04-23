@@ -8,9 +8,9 @@
         <li class="active">
             <a href="#">Objects</a>
         </li>
-        {% if create_url %}
+        {% if create_url_rule %}
         <li>
-            <a href="{{ create_url }}"><i class="icon-plus-sign"></i> Create</a>
+            <a href="{{ create_url() }}"><i class="icon-plus-sign"></i> Create</a>
         </li>
         {% endif %}
         {% if with_selected %}

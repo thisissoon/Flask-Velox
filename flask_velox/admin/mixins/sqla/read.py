@@ -29,9 +29,6 @@ class AdminTableModelMixin(TableModelMixin):
         from yourapp.models import MyModel
         class MyView(AdminTableModelMixin):
             model = MyModel
-            create_url_rule = 'admin.mymodel.create'
-            update_url_rule = 'admin.mymodel.update'
-            delete_url_rule = 'admin.mymodel.delete'
             with_selected = {
                'Delete': 'admin.mymodel.delete',
             }
@@ -49,13 +46,16 @@ class AdminTableModelMixin(TableModelMixin):
 
     Attributes
     ----------
-    create_url_rule : str
-        Flask url rule for linkinging to create views for the model
-    update_url_rule : str
-        Flask url rule for linkinging to update views for the model
-    delete_url_rule : str
-        Flask url rule for linkinging to delete views for the model
-    with_selected : dict
+    create_url_rule : str, optional
+        Flask url rule for linkinging to create views for the model, defaults
+        to ``.create``
+    update_url_rule : str, optional
+        Flask url rule for linkinging to update views for the model, defaults
+        to ``.update``
+    delete_url_rule : str, optional
+        Flask url rule for linkinging to delete views for the model, defaults
+        to ``.delete``
+    with_selected : dict, optional
         Dictionary containg a human name as the key and a Flask url rule
         as the value. In the example below ``Delete`` is the name which will
         appear in the ``With Selected`` with the url being the destination
@@ -71,7 +71,7 @@ class AdminTableModelMixin(TableModelMixin):
             Defined ``create_url_rule`` or None
         """
 
-        return getattr(self, 'create_url_rule', None)
+        return getattr(self, 'create_url_rule', '.create')
 
     def get_update_url_rule(self):
         """ Returns the ``update_url_rule`` or None if not defined.
@@ -82,7 +82,7 @@ class AdminTableModelMixin(TableModelMixin):
             Defined ``update_url_rule`` or None
         """
 
-        return getattr(self, 'update_url_rule', None)
+        return getattr(self, 'update_url_rule', '.update')
 
     def get_delete_url_rule(self):
         """ Returns the ``delete_url_rule`` or None if not defined.
@@ -93,7 +93,7 @@ class AdminTableModelMixin(TableModelMixin):
             Defined ``delete_url_rule`` or None
         """
 
-        return getattr(self, 'delete_url_rule', None)
+        return getattr(self, 'delete_url_rule', '.delete')
 
     def get_with_selected(self):
         """ Just returns the value of ``with_selected`` or None of not
@@ -128,7 +128,7 @@ class AdminTableModelMixin(TableModelMixin):
             Generated url or None
         """
 
-        rule = getattr(self, 'create_url_rule', None)
+        rule = getattr(self, 'create_url_rule', '.create')
         if rule:
             return url_for(rule, **kwargs)
 
@@ -156,7 +156,7 @@ class AdminTableModelMixin(TableModelMixin):
             Generated url or None
         """
 
-        rule = getattr(self, 'update_url_rule', None)
+        rule = self.get_update_url_rule()
         if rule:
             return url_for(rule, **kwargs)
 
@@ -184,7 +184,7 @@ class AdminTableModelMixin(TableModelMixin):
             Generated url or None
         """
 
-        rule = getattr(self, 'delete_url_rule', None)
+        rule = self.get_delete_url_rule()
         if rule:
             return url_for(rule, **kwargs)
 

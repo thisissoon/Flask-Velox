@@ -36,9 +36,13 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
 
     Attributes
     ----------
-    confirm : bool
+    confirm : bool, optional
         Ensure a confirmed flag is required when processing the view,
         defaults to ``True``
+    cancel_url_rule : str, optional
+        Raw flask url to send users on cancel, defaults to ``.index``
+    redirect_url_rule
+        Raw flask url to send users on success, defaults to ``.index``
     """
 
     def __init__(self, *args, **kwargs):
@@ -88,24 +92,29 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
         self.add_context('cancel_url', self.cancel_url)
 
     def get_cancel_url_rule(self):
-        """ Returns the ``cancel_url_rule`` or raises NotImplementedError if
-        not defined.
+        """ Returns the ``cancel_url_rule`` or if not defined returns default
+        value of ``.index``.
 
         Returns
         -------
         str
             Defined ``cancel_url_rule``
-
-        Raises
-        ------
-        NotImplementedError
-            If ``cancel_url_rule`` is not defined
         """
 
-        try:
-            return self.cancel_url_rule
-        except AttributeError:
-            raise NotImplementedError('``cancel_url_rule`` must be defined')
+        return getattr(self, 'cancel_url_rule', '.index')
+
+    def get_redirect_url_rule(self):
+        """ Returns raw redirect url rule to be used in ``url_for``. If the
+        ``redirect_url_rule`` is not defined then ``.index``  will be
+        returned.
+
+        Returns
+        -------
+        str
+            Raw flask url endpoint
+        """
+
+        return getattr(self, 'redirect_url_rule', '.index')
 
     def cancel_url(self, **kwargs):
         """ Returns the url to a cancel endpoint, this is used to render a link
@@ -133,6 +142,28 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
         rule = self.get_cancel_url_rule()
         return url_for(rule, **kwargs)
 
+    def redirect_url(self, **kwargs):
+        """ Returns the url to a redirect endpoint, when the form is valid
+        and the callback is called.
+
+        See Also
+        --------
+        * :py:meth:`get_redirect_url_rule`
+
+        Arguments
+        ---------
+        \*\*kwargs
+            Arbitrary keyword arguments passed to ``Flask.url_for``
+
+        Returns
+        -------
+        str or None
+            Generated url
+        """
+
+        rule = self.get_redirect_url_rule()
+        return url_for(rule, **kwargs)
+
     def flash_success_message(self):
         """ Flashes a success message to the user.
         """
@@ -152,12 +183,7 @@ class DeleteObjectMixin(SingleObjectMixin, ContextMixin, TemplateMixin):
 
         self.flash_success_message()
 
-        try:
-            rule = self.redirect_url_rule
-        except AttributeError:
-            raise NotImplementedError('``redirect_url_rule`` required.')
-
-        raise RequestRedirect(url_for(rule))
+        raise RequestRedirect(self.get_redirect_url_rule())
 
     def delete(self):
         """ Deletes the object, only if :py:meth:`can_delete` returns ``True``.

@@ -36,11 +36,6 @@ class BaseCreateMixin(object):
         -------
         werkzeug.wrappers.Response
             Redirects request to somewhere else
-
-        Raises
-        ------
-        NotImplementedError
-            If ``redirect_url_rule`` is not defined
         """
 
         session = self.get_session()
@@ -77,11 +72,6 @@ class BaseUpdateMixin(object):
         -------
         werkzeug.wrappers.Response
             Redirects request to somewhere else
-
-        Raises
-        ------
-        NotImplementedError
-            If ``redirect_url_rule`` is not defined
         """
 
         session = self.get_session()
