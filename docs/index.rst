@@ -1,5 +1,5 @@
-Flask-Velox Documentation
-=========================
+``Flask-Velox``
+===============
 
 ``Flask-Velox`` is a Flask extenstion designed to provide ready made View and
 Mixin  classes to help reapidly build Flask applications for both public and
@@ -10,8 +10,14 @@ across all our products. As our products and requirments grow so
 will ``Flask-Velox``. It is early days but the absolute
 basics are there and we would love feedback and help to grow this further.
 
-Guide
------
+Projects Using ``Flask-Velox``
+------------------------------
+
+* http://thisissoon.com | http://github.com/thisissoon/thisissoon.com
+* Pravis | http://github.com/thisissoon/pravis
+
+Usage Documentation
+-------------------
 
 .. toctree::
    :maxdepth: 3
@@ -20,6 +26,7 @@ Guide
    quickstart
    forms
    sqlalchemhy
+   admin
 
 API Reference
 -------------
