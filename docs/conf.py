@@ -17,7 +17,7 @@ root = os.path.abspath(
 )
 
 sys.path.append(os.path.join(root, 'flask_velox'))
-
+version = open(os.path.join(root, 'VERSION')).read().splitlines()[0]
 
 import flask_velox  # noqa
 
@@ -25,8 +25,8 @@ import flask_velox  # noqa
 # Project details
 project = u'Flask-Velox'
 copyright = u'2014, Soon London Ltd'
-version = open(os.path.join(root, 'VERSION')).read()
-release = open(os.path.join(root, 'VERSION')).read()
+version = version
+release = version
 
 # Sphinx Config
 templates_path = ['_templates']
