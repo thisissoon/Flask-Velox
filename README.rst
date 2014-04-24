@@ -1,17 +1,24 @@
 Flask-Velox
 ===========
 
-Velox is a set of classes & mixins to help rapidly build Flask applications.
+``Flask-Velox`` is a Flask extension designed to provide ready made View and
+Mixin  classes to help rapidly build Flask applications for both public and
+admin systems, based on Flasks pluggable ``MethodView``.
 
-What is it?
------------
+Here at `SOON_`_ we use Flask a lot and we wanted a framework we could use
+across all our products. As our products and requirements grow so
+will ``Flask-Velox``. It is early days but the absolute
+basics are there and we would love feedback and help to grow this further.
 
-We use Flask a lot at `SOON_`_ and we needed a central code base to build tools,
-classes, mixins and what not to help us rapidly build applications and CMS's
-to go with it.
+Projects Using ``Flask-Velox``
+------------------------------
 
-Its early days and probably doesn't do as much as the alternatives out there
-but as the software we build with it grows the demands on Velox will grow and
-therefore so will the software, so hopefully this will mature rather quickly.
+* http://thisissoon.com | http://github.com/thisissoon/thisissoon.com
+* Pravis (Coming Soon) | http://github.com/thisissoon/pravis
+
+Documentation
+-------------
+
+Full documentation can be found here: http://flask-velox.readthedocs.org/
 
 .. _`SOON_`: http://thisissoon.com
