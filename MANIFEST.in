@@ -1,3 +1,3 @@
-include setup.py README.rst MANIFEST.in LICENSE VERSION
+include setup.py README.rst MANIFEST.in LICENSE VERSION CHANGELOG.rst
 recursive-include dependencies *
 global-exclude *~

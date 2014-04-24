@@ -22,3 +22,5 @@ Documentation
 Full documentation can be found here: http://flask-velox.readthedocs.org/
 
 .. _`SOON_`: http://thisissoon.com
+
+.. include:: CHANGELOG.rst

@@ -34,13 +34,15 @@ Usage Documentation
    sqlalchemhy
    admin
 
-API Reference
--------------
+Reference
+---------
 
 .. toctree::
    :maxdepth: 2
 
    api
+   changelog
+   authors
 
 Indices and tables
 ==================
