@@ -12,6 +12,8 @@ in our views.
     * :py:class:`flask_velox.mixins.forms.FormMixin`
     * :py:class:`flask_velox.mixins.forms.MultiFormMixin`
 
+.. _form-view:
+
 Form View
 ---------
 
@@ -37,6 +39,8 @@ context to the template:
 
 Remember you are inheriting existing provided functionality which means you
 can easily customise it by overriding methods, examples below.
+
+.. _form-view-example-template:
 
 Example Template
 ~~~~~~~~~~~~~~~~
