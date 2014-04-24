@@ -103,7 +103,7 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
         """
 
         try:
-            return self.forms
+            return self.redirect_url_rule
         except AttributeError:
             raise NotImplementedError('``redirect_url_rule`` must be defined.')
 
