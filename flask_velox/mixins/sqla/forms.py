@@ -48,7 +48,7 @@ class BaseCreateUpdateMixin(object):
 
         session = self.get_session()
         form = self.get_form()
-        obj = self.get_object()  # Should be a blank object
+        obj = self.get_object()
 
         form.populate_obj(obj)
 
@@ -93,8 +93,14 @@ class UpdateModelFormMixin(
         """ Overrides form instantiation so object instance can be passed
         to the form.
 
+        .. literalinclude:: ../../../../flask_velox/mixins/sqla/forms.py
+            :language: python
+            :emphasize-lines: 4
+            :lines: 112-116
+
         See Also
         --------
+        * :py:class:`flask_velox.mixins.sqla.object.SingleObjectMixin`
         * :py:meth:`flask_velox.mixins.forms.BaseFormMixin.instantiate_form`
 
         Returns

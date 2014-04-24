@@ -24,8 +24,6 @@ class SingleObjectMixin(BaseModelMixin):
     2. ``request.args`` - Data passed as part of aquery string
     3. ``self`` - An attribute defined on the view class
 
-    If none of these are found a NotImplementedError will be raised.
-
     The field used for the lookup is also the name of the value passed in the
     request, for example if ``lookup_field`` is set to ``foo`` then
     ``request.view_args`` / ``request.args`` should have an element

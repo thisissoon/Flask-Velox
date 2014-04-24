@@ -10,6 +10,8 @@ those Create / Update tasks as simple as possible.
     * ``Flask-SQLAlchemy``
     * ``Flask-WTF``
 
+.. _create-view:
+
 Create View
 -----------
 
@@ -53,7 +55,56 @@ You will ofcourse need a template for rendering the form, see an
 As with the :ref:`Form View <form-view>` you can override the success callback
 function, redirect url etc.
 
+.. _update-view:
+
 Update View
 -----------
+
+The Update View follows the same principle as the :ref:`Create View
+<create-view>` except that the form is instantiated with an existing object
+which you can see documented here:
+
+* :py:meth:`flask_velox.mixins.sqla.forms.UpdateModelFormMixin.instantiate_form`
+
+.. code-block:: python
+
+    class MyUpdateView(forms.UpdateModelView):
+        model = MyModel
+        session = db.session
+        form = MyForm
+        template = 'update.html'
+
+Multi Form Update View
+----------------------
+
+There can sometimes be the requirement for multiple forms to update a single
+object which offer different functionality, an example situation is updating
+a user object where a password change form needs to be seperate from the
+general user attributes form. This view allows us to do this.
+
+Again it follows the same principles as the :ref:`create-view` and
+:ref:`update-view`.
+
+.. seealso::
+
+    * :ref:`multi-form-view`
+
+.. code-block:: python
+
+    from flask.ext.velox.views.sqla import forms
+    from yourapp import db
+    from yourapp.forms import UserPasswordForm, UserUpdateForm
+    from yourapp.models import User
+
+    class MyMultiFormView(forms.UpdateModelMultiFormView):
+        model = User
+        session = db.sesion
+        forms = [
+            ('Change Password', UserPasswordForm)
+            ('Update User', UserUpdateForm)
+        ]
+        template = 'mutli.html'
+
+You can see an example template :ref:`here <multi-form-view-example-template>`.
 
 .. _`WTForms-Alchemy`: http://wtforms-alchemy.readthedocs.org/en/latest/

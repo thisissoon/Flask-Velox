@@ -96,6 +96,8 @@ Ofcourse you can also override the method use for generating the
         def redirect_url(self, **kwargs):
             return url_for('some.rule', foo='bar')
 
+.. _multi-form-view:
+
 Multi Form View
 ---------------
 
@@ -133,6 +135,8 @@ As with the ``FormView`` you can override behaviour by overriding methods:
 
         def submit_url(self, **kwargs):
             return url_for('some.rule', foo='bar')
+
+.. _multi-form-view-example-template:
 
 Example Template
 ~~~~~~~~~~~~~~~~
