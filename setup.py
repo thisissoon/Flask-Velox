@@ -97,5 +97,5 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Topic :: Software Development',
-        'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content'])
