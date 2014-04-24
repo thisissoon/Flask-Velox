@@ -20,7 +20,7 @@ Todo
 ----
 
 * Unit Tests
-* More Examples
+* ``Flask-Principal`` integration for ``Flask-Admin`` Views
 
 Usage Documentation
 -------------------
