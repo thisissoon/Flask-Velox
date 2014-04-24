@@ -15,4 +15,5 @@ Modules
 .. toctree::
     :maxdepth: 3
 
+    sqla/delete
     sqla/read

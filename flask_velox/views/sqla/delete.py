@@ -24,7 +24,7 @@ class DeleteObjectView(DeleteObjectMixin):
         :linenos:
 
         from flask.ext.velox.views.sqla.delete import DeleteObjectView
-        form yourapp import db
+        from yourapp import db
         from yourapp.models import MyModel
 
         class MyView(DeleteObjectView):
