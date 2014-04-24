@@ -16,6 +16,12 @@ Projects Using ``Flask-Velox``
 * http://thisissoon.com | http://github.com/thisissoon/thisissoon.com
 * Pravis | http://github.com/thisissoon/pravis
 
+Todo
+----
+
+* Unit Tests
+* More Examples
+
 Usage Documentation
 -------------------
 
