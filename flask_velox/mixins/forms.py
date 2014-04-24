@@ -28,6 +28,24 @@ class BaseFormMixin(ContextMixin, TemplateMixin):
         Flask url rule for form submit action e.g: 'some.url.rule'
     """
 
+    def flash(self):
+        """ Override this method to call a flask flash method. By default this
+        method does nothing.
+
+        Example
+        -------
+
+        .. code-block:: python
+
+            class MyView(FromMixin):
+                form = Form
+
+                def flash(self):
+                    flash('Message', 'success')
+        """
+
+        pass
+
     def set_context(self):
         """ Overrides ``set_context`` to set extra context variables.
 

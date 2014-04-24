@@ -16,8 +16,8 @@ from flask_velox.mixins.forms import FormMixin, MultiFormMixin
 from flask_velox.mixins.sqla.object import SingleObjectMixin
 
 
-class BaseCreateMixin(object):
-    """ Base Mixin for Creating a object with SQLAlchemy.
+class BaseCreateUpdateMixin(object):
+    """ Base Mixin for Creating or Updating a object with SQLAlchemy.
 
     Warning
     -------
@@ -26,11 +26,19 @@ class BaseCreateMixin(object):
     """
 
     def success_callback(self):
-        """ Overrides ``success_callback`` creating new model objects
+        """ Overrides ``success_callback`` creating new model objects. This
+        method is called on successful form validations. It first obtains
+        the current db session and the instantiated form. A blank object
+        is obtained from the model and then populated with the form data.
+
+        .. literalinclude:: ../../../../flask_velox/mixins/sqla/forms.py
+            :language: python
+            :emphasize-lines: 5
+            :lines: 49-56
 
         See Also
         --------
-        * :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
+        * :py:meth:`flask_velox.mixins.forms.BaseFormMixin.success_callback`
 
         Returns
         -------
@@ -47,43 +55,39 @@ class BaseCreateMixin(object):
         session.add(obj)
         session.commit()
 
-        flash('successfully created {0}'.format(obj), 'success')
+        self.flash()
 
-        return super(BaseCreateMixin, self).success_callback()
+        return super(BaseCreateUpdateMixin, self).success_callback()
 
 
-class BaseUpdateMixin(object):
-    """ Base Mixin for Updating an object with SQLAlchemy.
-
-    Warning
-    -------
-    This mixin cannot be used on it's own and should be used inconjunction
-    with others, such as :py:class:`ModelFormMixin`.
+class CreateModelFormMixin(
+        SingleObjectMixin,
+        BaseCreateUpdateMixin,
+        FormMixin):
+    """ Handles creating objects after form validation has completed and
+    was successful.
     """
 
-    def success_callback(self):
-        """ Overrides ``success_callback`` updating existing object
-
-        See Also
-        --------
-        * :py:meth:`flask_velox.mixins.forms.FormMixin.success_callback`
-
-        Returns
-        -------
-        werkzeug.wrappers.Response
-            Redirects request to somewhere else
+    def flash(self):
+        """ Flash created message to user.
         """
 
-        session = self.get_session()
-        form = self.get_form()
-        obj = self.get_object()  # Should be a blank object
+        flash('Successfully created {0}'.format(self.get_object()), 'success')
 
-        form.populate_obj(obj)
-        session.commit()
 
-        flash('successfully updated {0}'.format(obj), 'success')
+class UpdateModelFormMixin(
+        SingleObjectMixin,
+        BaseCreateUpdateMixin,
+        FormMixin):
+    """ Handels updating a single existing object after form validation has
+    completed and was successful.
+    """
 
-        return super(BaseUpdateMixin, self).success_callback()
+    def flash(self):
+        """ Flash updated message to user.
+        """
+
+        flash('Successfully updated {0}'.format(self.get_object()), 'success')
 
     def instantiate_form(self, **kwargs):
         """ Overrides form instantiation so object instance can be passed
@@ -101,30 +105,14 @@ class BaseUpdateMixin(object):
 
         obj = self.get_object()
 
-        return super(BaseUpdateMixin, self).instantiate_form(
+        return super(UpdateModelFormMixin, self).instantiate_form(
             obj=obj,
             **kwargs)
 
 
-class CreateModelFormMixin(SingleObjectMixin, BaseCreateMixin, FormMixin):
-    """ Handles creating objects after form validation has completed and
-    was successful.
-    """
-
-    pass
-
-
-class UpdateModelFormMixin(SingleObjectMixin, BaseUpdateMixin, FormMixin):
-    """ Handels updating a single existing object after form validation has
-    completed and was successful.
-    """
-
-    pass
-
-
 class UpdateModelMultiFormMixin(
         SingleObjectMixin,
-        BaseUpdateMixin,
+        BaseCreateUpdateMixin,
         MultiFormMixin):
     """ Mixin for building mutli forms with a single SQAlachemy object
 
