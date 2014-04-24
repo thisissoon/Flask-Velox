@@ -54,18 +54,6 @@ class MultiDeleteObjectView(MultiDeleteObjectMixin):
             template = 'delete.html'
             model = MyModel
             session = db.session
-
-    Attributes
-    ----------
-    methods : list
-        Allowed HTTP method verbs, defaults to ``['GET', 'POST', ]``
     """
 
-    #: Allowed HTTP Methods
-    methods = ['GET', 'POST', ]
-
-    def post(self, *args, **kwargs):
-        """ Handle HTTP POST requests rendering a template.
-        """
-
-        return self.render()
+    pass

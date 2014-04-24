@@ -131,6 +131,9 @@ class MultiDeleteObjectMixin(DeleteObjectMixin):
     model.
     """
 
+    #: Allowed HTTP Methods
+    methods = ['GET', 'POST', ]
+
     def set_context(self):
         """ Override context to add objects rather than object to the
         context.
@@ -195,3 +198,9 @@ class MultiDeleteObjectMixin(DeleteObjectMixin):
 
             # Call the callback
             self.success_callback()
+
+    def post(self, *args, **kwargs):
+        """ Handle HTTP POST requests rendering a template.
+        """
+
+        return self.render()
