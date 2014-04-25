@@ -70,6 +70,8 @@ class ContextMixin(object):
         if hasattr(self, 'set_context'):
             self.merge_context(self.set_context())
 
+        super(ContextMixin, self).__init__(*args, **kwargs)
+
     def get_context(self):
         """ Propety method which returns the current context.
 

@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+2014.04.25
+----------
+- Feature: ``ObjectView`` and ``ObjectMixin`` for rendering single objects
+- Feature: ``request.view_args`` can now be accessed as view instance
+  attributes for accessing in other methods
+- Feature: Ability to customise context name for ``objects`` / ``object``
+  within SQLAlchemy read views.
+
 2014.04.24.2
 ------------
 - Hotfix: Templates not included in MANIFEST.in resulting in missing from

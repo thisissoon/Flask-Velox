@@ -24,7 +24,7 @@ Example
 
 """
 
-from flask import render_template
+from flask import render_template, request
 from flask.views import MethodView
 
 
@@ -47,6 +47,31 @@ class TemplateMixin(MethodView):
             template = 'templates/home.html'
 
     """
+
+    def __getattr__(self, name):
+        """ Overriding this allows us to access request view args as attributes
+        on view instances.
+
+        Returns
+        -------
+        anything
+            Attribute value
+
+        Raises
+        ------
+        AttributeError
+            If attribute does not exist
+        """
+
+        if not hasattr(self, '_view_args'):
+            self._view_args = request.view_args
+
+        val = request.view_args.get(format(name))
+
+        if not val:
+            return super(TemplateMixin, self).__getattribute__(name)
+
+        return val
 
     @property
     def _template(self):
