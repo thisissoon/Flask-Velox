@@ -85,6 +85,25 @@ With Pagination
     {% if objects.has_prev %}<a href="{{ url_for('rule', page=objects.prev_num) }}"><< Newer Objects{% else %}<< Newer Objects{% endif %} |
     {% if objects.has_next %}<a href="{{ url_for('rule', page=objects.next_num) }}">Older Objects >></a>{% else %}Older Objects >>{% endif %}
 
+Changing context name
+~~~~~~~~~~~~~~~~~~~~~
+
+If you do not wish ``objects`` to be used as the context name for your object
+list you can change this be defining a ``objects_context_name`` attribute on
+the class, for example:
+
+.. code-block:: python
+
+    from flask.ext.velox.views.sqla import read
+    from yourapp.models import Model
+
+    class MyView(read.ModelListView):
+        model = Model
+        objects_context_name = 'foos'
+        template = 'list.html'
+
+In this case ``foos`` will be used instead of ``objects`` in the template.
+
 Model Table View
 ----------------
 
@@ -147,3 +166,64 @@ here but you can check the :doc:`/api` for more details:
 * :py:meth:`flask_velox.mixins.sqla.read.TableModelMixin.format_value`
 
 Pagination operates exactly the same as ``ListModelMixin``.
+
+Object View
+-----------
+
+The ``ObjectView`` functions like the list views above however simply returns a
+single object to the template. Please read the ``SingleObjectMixin``
+documentation which explains how an object is retreived.
+
+.. seealso::
+
+    * :py:class:`flask_velox.mixins.sqla.read.ObjectMixin`
+    * :py:class:`flask_velox.mixins.sqla.object.SingleObjectMixin`
+
+.. code-block:: python
+
+    from flask.ext.velox.views.sqla import read
+    from yourapp.models import Model
+
+    class MyView(read.ObjectView):
+        model = Model
+        template = 'detail.html'
+
+The context returned to the template is as follows:
+
+* ``model``: The SQLAlchemy model class
+* ``object``: The object
+
+Example Template
+~~~~~~~~~~~~~~~~
+
+.. code-block:: html+jinja
+
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>{{ object.name }}</title>
+        </head>
+        <body>
+            {{ object.description }}
+        </body>
+    </html>
+
+Changing context name
+~~~~~~~~~~~~~~~~~~~~~
+
+As with the list views you can change the context name used for accessing the
+object in the template by setting an ``object_context_name`` attribute on the
+view class:
+
+.. code-block:: python
+
+    from flask.ext.velox.views.sqla import read
+    from yourapp.models import Model
+
+    class MyView(read.ObjectView):
+        model = Model
+        template = 'detail.html'
+        object_context_name = 'foo'
+
+In the above view ``foo`` will be returned to the template for accessing the
+object rather than ``object``.

@@ -56,6 +56,9 @@ class ListModelMixin(BaseModelMixin):
     base_query : object, optional
         A SQLAlchemy base query object, if defined this will be used instead
         of ``self.model.query.all()``
+    objects_context_name : str, optional
+        Instead of using ``object`` you can set the context variable name to
+        use for the object, defaults to ``object``
     paginate : bool, optional
         Paginate the records using SQLAlchemy ``query.paginate``, defaults True
     per_page : int, optional
@@ -87,8 +90,20 @@ class ListModelMixin(BaseModelMixin):
 
         objects, pagination = self.get_objects()
 
-        self.add_context('objects', objects)
+        self.add_context(self.get_objects_context_name(), objects)
         self.add_context('pagination', pagination)
+
+    def get_objects_context_name(self):
+        """ Returns the context name to use when returning the objects to
+        the template, defaults to ``objects``.
+
+        Returns
+        -------
+        str
+            Name to use for context variable
+        """
+
+        return getattr(self, 'objects_context_name', 'objects')
 
     def get_basequery(self):
         """ Returns SQLAlchemy base query object instance, if ``base_query`` is
@@ -339,4 +354,16 @@ class ObjectMixin(SingleObjectMixin):
 
         super(ObjectMixin, self).set_context()
 
-        self.add_context('object', self.get_object())
+        self.add_context(self.get_object_context_name(), self.get_object())
+
+    def get_object_context_name(self):
+        """ Returns the context name to use for returning the object to the
+        template, defaults to ``object``.
+
+        Returns
+        -------
+        str
+            Context name to use for object in template
+        """
+
+        return getattr(self, 'object_context_name', 'object')
