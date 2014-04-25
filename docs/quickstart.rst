@@ -66,4 +66,29 @@ The View defines the template to render and some default context to use
 when rendering the template. All other bundled views with ``Flask-Velox``
 follow a similar pattern.
 
+Accessing View Argument
+-----------------------
+
+If your view takes keyword arguments these can also be accessed as attributes
+on the instance. For example, take these route:
+
+.. code-block:: python
+
+    app.add_url_rule('/<name>/', view_func=SomeView.as_view('name'))
+    app.add_url_rule('/<name>/<version>',
+                     view_func=SomeView.as_view('name-version'))
+
+The view takes 2 arguments, ``name`` and ``version``, these are captured and
+can be accessed as attributes:
+
+.. code-block:: python
+
+    class SomeView(TemplateView):
+
+        def set_context(self):
+            self.add_context('name', self.name)
+            self.add_context('version', self.version)
+
+            super(TemplateView, self).set_context()
+
 .. _`MethodView`: http://flask.pocoo.org/docs/views/#method-based-dispatching
