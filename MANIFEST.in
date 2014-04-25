@@ -1,3 +1,4 @@
 include setup.py README.rst MANIFEST.in LICENSE VERSION CHANGELOG.rst
 recursive-include dependencies *
+recursive-include flask_velox/templates *
 global-exclude *~
