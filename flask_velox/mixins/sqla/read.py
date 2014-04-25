@@ -28,105 +28,7 @@ Example
 """
 
 from flask import request
-from flask_velox.mixins.context import ContextMixin
-
-
-class BaseModelMixin(ContextMixin):
-    """ Mixin provides SQLAlchemy model integration.
-
-    Attributes
-    ----------
-    model : class
-        SQLAlchemy un-instanciated model class
-    session : object
-        SQLAlchemy session instance
-    pk_field : str, optional
-        The primary key field name, defaults to ``id``
-    """
-
-    def set_context(self):
-        """ Overrides ``set_context`` to set extra context variables.
-
-        See Also
-        --------
-        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
-        """
-
-        super(BaseModelMixin, self).set_context()
-
-        self.add_context('model', self.get_model())
-
-    def get_session(self):
-        """ Returns the SQLAlchemy db session instance.
-
-        Example
-        -------
-        >>> from flask.ext.velox.mixins.sqla.model import BaseModelMixin
-        >>> from yourapp import db
-        >>> class MyView(BaseModelMixin):
-        ...     session = db.session
-        >>> view = MyView()
-        >>> view.get_session()
-        <sqlalchemy.orm.scoping.scoped_session at 0x104c88dd0>
-
-        Raises
-        ------
-        NotImplementedError
-            If ``session`` has not been declared on the class
-
-        """
-
-        if not hasattr(self, 'session'):
-            raise NotImplementedError('``session`` attribute required')
-
-        return self.session
-
-    def get_model(self):
-        """ Returns the Model to perform queries against.
-
-        Example
-        -------
-        >>> from flask.ext.velox.mixins.sqla.model import BaseModelMixin
-        >>> from yourapp.models import SomeModel
-        >>> class MyView(BaseModelMixin):
-        ...     model = SomeModel
-        >>> view = MyView()
-        >>> view.get_model()
-        yourapp.models.SomeModel
-
-        Raises
-        ------
-        NotImplementedError
-            If ``model`` has not been declared on the class
-
-        """
-
-        if not hasattr(self, 'model'):
-            raise NotImplementedError('``model`` attribute required')
-
-        return self.model
-
-    def get_pk_field(self):
-        """ Returns the primary key field name. If ``pk_field`` is not
-        declared return value defaults to ``id``.
-
-        Example
-        -------
-        >>> from flask.ext.velox.mixins.sqla.model import BaseModelMixin
-        >>> class MyView(BaseModelMixin):
-        ...     pk_field = 'foo'
-        >>> view = MyView()
-        >>> view.get_pk_field()
-        'foo'
-
-        Returns
-        -------
-        str
-            Primary key field name
-
-        """
-
-        return getattr(self, 'pk_field', 'id')
+from flask_velox.mixins.sqla.object import BaseModelMixin, SingleObjectMixin
 
 
 class ListModelMixin(BaseModelMixin):
@@ -300,10 +202,6 @@ class TableModelMixin(ListModelMixin):
         * ``column_name``: ``column_name`` function
         * ``format_value``: ``format_value`` function
 
-        Returns
-        -------
-        str
-            Rendered template
         """
 
         super(TableModelMixin, self).set_context()
@@ -415,3 +313,30 @@ class TableModelMixin(ListModelMixin):
                 value = formatter(value)
 
         return value
+
+
+class ObjectMixin(SingleObjectMixin):
+    """ Mixin for returning a single object.
+
+    See Also
+    --------
+    * :py:class:`flask_velox.mixins.sqla.object.SingleObjectMixin`
+    """
+
+    def set_context(self):
+        """ Set the context for a Object view.
+
+        See Also
+        --------
+        * :py:meth:`from flask_velox.mixins.context.ContextMixin.set_context`
+
+        Note
+        ----
+        Adds the following context variables.
+
+        * ``object``: List of columns
+        """
+
+        super(ObjectMixin, self).set_context()
+
+        self.add_context('object', self.get_object())

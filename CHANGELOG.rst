@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Next Release
+------------
+- Feature: ``ObjectView`` and ``ObjectMixin`` for rendering single objects
+
 2014.04.24.2
 ------------
 - Hotfix: Templates not included in MANIFEST.in resulting in missing from
