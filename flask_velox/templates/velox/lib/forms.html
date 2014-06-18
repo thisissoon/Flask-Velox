@@ -1,0 +1,75 @@
+{# ====================== Form ========================== #}
+
+{% macro form(action=None, legend=None, form=None, prefix=None) %}
+{% if not legend %}<hr />{% endif %}
+<form {% if prefix %}id="{{ prefix }}" {% endif %}action="{{ action|default('#') }}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+    {% if prefix %}
+        <input type="hidden" name="form" id="form" value="{{ prefix }}">
+    {% endif %}
+    <fieldset>
+        {% if legend %}
+            <legend>{{ legend }}</legend>
+        {% endif %}
+        {{ caller() }}
+    </fieldset>
+</form>
+{% endmacro %}
+
+{# ====================== Form Field ========================== #}
+
+{% macro form_field(form, field) %}
+    {% if not is_hidden_field(field) %}
+        <div class="control-group{% if field.errors %} error{% endif %}">
+            {{ field.label(class_='control-label') }}
+            <div class="controls">
+                {{ field() }}
+                {% if field.errors %}
+                    {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                        {% for error in field_errors %}
+                        <span class="label label-important">{{ error }}</span>
+                        {% endfor %}
+                    {% endfor  %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{# ====================== Form Fields ========================== #}
+
+{% macro form_fields(form) %}
+    {% if form.hidden_tag is defined %}
+        {{ form.hidden_tag() }}
+    {% endif %}
+    {% for field in form %}
+        {{ form_field(form, field) }}
+    {% endfor %}
+{% endmacro %}
+
+{# ====================== Form Controls ========================== #}
+
+{% macro form_controls(buttons) %}
+<div class="control-group">
+    <div class="controls btn-toolbar">
+        {{ caller() }}
+    </div>
+</div>
+{% endmacro %}
+
+{# ====================== Save Button ========================== #}
+
+{% macro save_button(classes=['btn', 'btn-primary']) %}
+<button type="submit" class="{% for class in classes %}{{ class }} {% endfor %}"><i class="icon-hdd icon-white"></i> Save</button>
+{% endmacro %}
+
+{# ====================== Cancel Button ========================== #}
+
+{% macro cancel_button(href, classes=['btn', 'pull-right']) %}
+<a href="{{ href }}" class="{% for class in classes %}{{ class }} {% endfor %}"><i class="icon-arrow-left"></i> Cancel</a>
+{% endmacro %}
+
+{# ====================== Delete Button ========================== #}
+
+{% macro delete_button(href, classes=['btn', 'btn-danger', 'pull-right']) %}
+<a href="{{ href }}" class="{% for class in classes %}{{ class }} {% endfor %}"><i class="icon-trash icon-white"></i> Delete</a>
+{% endmacro %}

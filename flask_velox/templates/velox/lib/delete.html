@@ -1,0 +1,67 @@
+{# ====================== Confirm Header ========================== #}
+
+{% macro delete_confirm_header() %}
+<h2>Delete Confirm</h2>
+<div class="row">
+    <div class="span6 well control-group">
+        <p>Please confirm you wish to delete the following record:</p>
+{% endmacro %}
+
+{# ====================== Confirm Controls ========================== #}
+
+{% macro delete_controls() %}
+<div class="controls">
+    <a href="{{ cancel_url() }}" class="btn">Cancel</a>
+    {{ caller() }}
+</div>
+{% endmacro %}
+
+{# ====================== Confirm Footer ========================== #}
+
+{% macro delete_confirm_footer() %}
+    </div>
+</div>
+{% endmacro %}
+
+{# ====================== List Objects ========================== #}
+
+{% macro delete_object_list(objects) %}
+<ul>
+    {% for object in objects %}
+    <li>{{ object }}</li>
+    {% endfor %}
+</ul>
+{% endmacro %}
+
+{# ====================== Hidden Field ========================== #}
+
+{% macro delete_object_field(objects) %}
+    {% for object in objects %}
+        <input type="hidden" name="objects" id="objects" value="{{ object.id }}" />
+    {% endfor %}
+{% endmacro %}
+
+{# ====================== Delete Confirm ========================== #}
+
+{% macro confirm(object, url) %}
+    {{ delete_confirm_header() }}
+    {{ delete_object_list([object, ]) }}
+    {% call delete_controls() %}
+        <a href="{{ url }}" class="btn btn-danger pull-right"><i class="icon-trash icon-white"></i> Delete</a>
+    {% endcall %}
+    {{ delete_confirm_footer() }}
+{% endmacro %}
+
+{# ====================== Multi Delete Confirm ========================== #}
+
+{% macro multi_confirm(objects, url) %}
+    {{ delete_confirm_header() }}
+    {{ delete_object_list(objects=objects) }}
+    {% call delete_controls() %}
+    <form action="{{ url }}" method="post" enctype="multipart/form-data" id="delete-confirm-form" class="pull-right" style="margin-bottom:0px">
+        {{ delete_object_field(objects)}}
+        <button type="submit" class="btn btn-danger pull-right"><i class="icon-trash icon-white"></i> Delete</button>
+    </form>
+    {% endcall %}
+    {{ delete_confirm_footer() }}
+{% endmacro %}
